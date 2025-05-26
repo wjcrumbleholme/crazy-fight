@@ -1,5 +1,5 @@
 use macroquad::{prelude::*};
-use ui::{Alignment, Button, Container, Label, Padding, Position, Size, UIElement};
+use ui::{button::Button, cardui::Card, container::Container, Alignment, Position, Size, UIElement};
 
 pub mod ui;
 
@@ -22,32 +22,40 @@ async fn main() {
         Size::Rel(1.0), 
         Size::Rel(1.0),
         GREEN,
+        ui::Layout::None,
+        0.0
+    );
+
+    let mut card_view = Container::new(
+        Position::Align(Alignment::Centre), 
+        Position::Align(Alignment::Centre), 
+        Size::Rel(0.4), 
+        Size::Rel(0.2),
+        LIGHTGRAY,
+        ui::Layout::RowCentre,
+        100.0
     );
 
     //Card example
-    let mut child = Container::new(
+    let mut example_card = Card::new(
         Position::Align(Alignment::Centre), 
-        Position::Align(Alignment::Centre), 
-        Size::Abs(100.0), 
-        Size::Abs(140.0),
-        WHITE,
+        Position::Align(Alignment::Centre),
+        load_texture("res/test_card.png").await.unwrap(), 
+        || {println!("Card clicked")},
     );
 
-    let mut child2 = Container::new(
+    let mut example_card_2 = Card::new(
         Position::Align(Alignment::Centre), 
-        Position::Align(Alignment::Centre), 
-        Size::Abs(50.0), 
-        Size::Abs(50.0),
-        RED,
+        Position::Align(Alignment::Centre),
+        load_texture("res/test_card.png").await.unwrap(), 
+        || {println!("Card 2 clicked")},
     );
-    child2.add_padding(Padding::uniform(5.0));
 
-    let example_text = Label::new(
-        Position::Align(Alignment::LeTop),
+    let mut example_card_3 = Card::new(
         Position::Align(Alignment::Centre), 
-        16, 
-        "Test".to_string(), 
-        WHITE,
+        Position::Align(Alignment::Centre),
+        load_texture("res/test_card.png").await.unwrap(), 
+        || {println!("Card 3 clicked")},
     );
 
     let example_btn = Button::new(
@@ -62,10 +70,12 @@ async fn main() {
         || {println!("Button has been clicked!")},
     );
 
-    child2.add_child(Box::new(example_text));
-    child.add_child(Box::new(child2));
-    root.add_child(Box::new(child));
+    card_view.add_child(Box::new(example_card));
+    card_view.add_child(Box::new(example_card_2));
+    card_view.add_child(Box::new(example_card_3));
+    root.add_child(Box::new(card_view));
     root.add_child(Box::new(example_btn));
+
 
 
     loop {
