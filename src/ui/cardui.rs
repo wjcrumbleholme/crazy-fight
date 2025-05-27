@@ -2,7 +2,7 @@ use macroquad::{color::WHITE, input::{is_mouse_button_pressed, mouse_position, M
 
 use super::{Position, Size, UIElement};
 
-pub struct Card {
+pub struct CardUi {
     img: Texture2D,
     x: Position,
     y: Position,
@@ -11,7 +11,7 @@ pub struct Card {
     on_click: Box<dyn Fn()>,
 }
 
-impl Card {
+impl CardUi {
     pub fn new<F: Fn() + 'static>(x: Position, y: Position, img: Texture2D, on_click: F) -> Self { 
         Self { 
             img: img, 
@@ -25,7 +25,7 @@ impl Card {
 }
 
 //Implement the trait for the Card object
-impl UIElement for Card {
+impl UIElement for CardUi {
     fn draw(&self, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
         let w = self.w.caclulate(parent_w);
         let h = self.h.caclulate(parent_h);

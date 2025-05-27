@@ -13,13 +13,13 @@ pub struct Container {
     color: Color,
     padding: Padding,
     layout: Layout,
-    gap: f32,
+    gap: Size,
 
 }
 
 // Basic container object logic
 impl Container {
-    pub fn new(x: Position, y: Position, w: Size, h: Size, color: Color, layout: Layout, gap: f32) -> Self{
+    pub fn new(x: Position, y: Position, w: Size, h: Size, color: Color, layout: Layout, gap: Size) -> Self{
         Self { 
             children: vec![], 
             x: x,
@@ -61,6 +61,8 @@ impl UIElement for Container {
 
         draw_rectangle(x, y, w, h, self.color);
 
+
+
         match self.layout {
             Layout::None => {
                 // Recursively draw the child's objects
@@ -80,8 +82,16 @@ impl UIElement for Container {
                     child_sizes.push(child_width);
                 }
 
+                // Calculate the gap size 
+                let calc_gap = match self.gap {
+                    Size::Abs(px) => px,
+                    Size::Rel(rel) => {
+                        w * rel
+                    }
+                };
+
                 // Add the missing gap
-                total_width += self.gap * (self.children.len().saturating_sub(1)) as f32;
+                total_width += calc_gap * (self.children.len().saturating_sub(1)) as f32;
 
                 // Find starting point
                 let mut current_x = x + (w - total_width) / 2.0;
@@ -89,7 +99,7 @@ impl UIElement for Container {
                 // Draw all of the children
                 for (child, child_w) in self.children.iter().zip(child_sizes.iter()) {
                     child.draw(current_x, y, *child_w, h);
-                    current_x += child_w + self.gap;
+                    current_x += child_w + calc_gap;
                 }
 
             },
@@ -105,8 +115,16 @@ impl UIElement for Container {
                     child_sizes.push(child_height);
                 }
 
+                // Calculate the gap size 
+                let calc_gap = match self.gap {
+                    Size::Abs(px) => px,
+                    Size::Rel(rel) => {
+                        h * rel
+                    }
+                };
+
                 // Add the missing gap
-                total_height += self.gap * (self.children.len().saturating_sub(1)) as f32;
+                total_height += calc_gap * (self.children.len().saturating_sub(1)) as f32;
 
                 // Find starting point
                 let mut current_y = y + (h - total_height) / 2.0;
@@ -114,7 +132,7 @@ impl UIElement for Container {
                 // Draw all of the children
                 for (child, child_h) in self.children.iter().zip(child_sizes.iter()) {
                     child.draw(x, current_y, w, *child_h);
-                    current_y += child_h + self.gap;
+                    current_y += child_h + calc_gap;
                 }
 
             },

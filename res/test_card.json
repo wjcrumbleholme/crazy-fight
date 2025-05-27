@@ -1,0 +1,7 @@
+{
+    "name": "Test Card",
+    "card_type": "Item",
+    "img_path": "res/test_card.png",
+    "description": "Test card to test the parsing system",
+    "ability": null
+}
