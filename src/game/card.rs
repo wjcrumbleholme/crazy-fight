@@ -1,7 +1,39 @@
-use std::{fs::{self, read_to_string, File}, path::Path};
+use std::{fs::{self}};
 use serde::Deserialize;
 use std::collections::HashMap;
 use macroquad::prelude::*;
+
+use super::GameManger;
+
+
+
+pub struct CardManager {
+    card_registry: HashMap<String, Card>
+}
+
+impl CardManager {
+    pub fn new() -> Self {
+        Self {
+            card_registry: HashMap::new(),
+        }
+    }
+
+    pub fn register_card(&mut self, card_path: &str) {
+        let loaded_card = Card::load_from_file(card_path);
+        self.card_registry.insert(loaded_card.get_id().clone(), loaded_card);
+    }
+
+    pub fn get_card(&self, id: &str) -> Option<&Card> {
+        self.card_registry.get(id)
+    }
+
+}
+
+
+
+
+
+
 
 #[derive(Deserialize, Clone)]
 pub enum CardType {
@@ -15,11 +47,12 @@ pub enum CardType {
 
 #[derive(Deserialize, Clone)]
 pub struct Card {
-    pub name: String,
-    pub card_type: CardType,
-    pub img_path: String,
-    pub description: String,
-    pub ability: Option<Ability>
+    name: String,
+    id: String,
+    card_type: CardType,
+    img_path: String,
+    description: String,
+    ability: Option<Ability>
 }
 
 #[derive(Deserialize, Clone)]
@@ -29,11 +62,14 @@ pub struct Ability {
 }
 
 impl Card {
-    pub fn get_type(&self) -> CardType {
-        self.card_type.clone()
+    pub fn get_type(&self) -> &CardType {
+        &self.card_type
     }
-    pub fn get_img_path(&self) -> String {
-        self.img_path.clone()
+    pub fn get_img_path(&self) -> &String {
+        &self.img_path
+    }
+    pub fn get_id(&self) -> &String {
+        &self.id
     }
     pub fn load_from_file(path: &str) -> Self {
         let data = fs::read_to_string(path).expect("Failed to read file");

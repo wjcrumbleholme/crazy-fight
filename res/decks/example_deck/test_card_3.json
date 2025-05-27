@@ -1,7 +1,8 @@
 {
     "name": "Test Card 3",
+    "id": "test_card_3",
     "card_type": "Character",
-    "img_path": "res/test_card_3.png",
+    "img_path": "res/decks/example_deck/test_card_3.png",
     "description": "Test card to test the parsing system",
     "ability": null
 }

@@ -59,3 +59,17 @@
     - Self destruct: Add to a card to destroy it and the lowest damage card next battle
 - Event 
     - Golf: Immediately call a battle, the player with the largest score looses instead
+
+
+
+
+# Managers
+- GameManager
+    - DeckManager: Handles the different piles of cards + the loading of a deck
+    - CardManager: Handles all of the cards and their abilities
+    - PlayerManager: Handles all players and any debuffs they may have
+
+
+# To load a deck in:
+- First parse all of the cards
+- Then add them all to the deck manager

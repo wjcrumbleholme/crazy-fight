@@ -1,6 +1,6 @@
 use macroquad::{prelude::*};
 use ui::{button::Button, cardui::CardUi, container::Container, Alignment, Position, Size, UIElement};
-use game::card::Card;
+use game::{card::Card, GameManger};
 use std::fs::{read_dir, FileType};
 
 pub mod ui;
@@ -43,7 +43,7 @@ async fn main() {
     let mut example_card = CardUi::new(
         Position::Align(Alignment::Centre), 
         Position::Align(Alignment::Centre),
-        load_texture("res/test_card.png").await.unwrap(), 
+        load_texture("res/decks/example_deck/test_card.png").await.unwrap(), 
         || {println!("Card clicked")},
     );
 
@@ -59,19 +59,22 @@ async fn main() {
         || {println!("Button has been clicked!")},
     );
 
-    // Load in the cards
-    for path in read_dir("res").unwrap() {
-        if path.as_ref().unwrap().path().extension().unwrap() == "json" {
-            let card_load = Card::load_from_file(path.unwrap().path().to_str().unwrap());
-            let card_load_ui = CardUi::new(
-                Position::Align(Alignment::Centre), 
-                Position::Align(Alignment::Centre),
-                load_texture(&card_load.get_img_path()).await.unwrap(), 
-                || {println!("Card loaded clicked")}
-            );
-            card_view.add_child(Box::new(card_load_ui));
-        }
-    }
+    // // Load in the cards
+    // for path in read_dir("res").unwrap() {
+    //     if path.as_ref().unwrap().path().extension().unwrap() == "json" {
+    //         let card_load = Card::load_from_file(path.unwrap().path().to_str().unwrap());
+    //         let card_load_ui = CardUi::new(
+    //             Position::Align(Alignment::Centre), 
+    //             Position::Align(Alignment::Centre),
+    //             load_texture(&card_load.get_img_path()).await.unwrap(), 
+    //             || {println!("Card loaded clicked")}
+    //         );
+    //         card_view.add_child(Box::new(card_load_ui));
+    //     }
+    // }
+
+    let mut game_manager = GameManger::new();
+    game_manager.load_deck("res/decks/example_deck");
 
     
 
