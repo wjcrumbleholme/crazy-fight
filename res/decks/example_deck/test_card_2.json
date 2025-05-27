@@ -2,7 +2,7 @@
     "name": "Test Card 2",
     "id": "test_card_2",
     "card_type": "Weapon",
-    "img_path": "res/decks/example_deck/test_card_2.png",
+    "img_path": "test_card_2.png",
     "description": "Test card to test the parsing system",
     "ability": null
 }

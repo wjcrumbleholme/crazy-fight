@@ -35,7 +35,12 @@ impl DeckManager {
         self.character_draw_pile.add(card);
     }
 
+    pub fn get_item_draw_pile(&self) -> Vec<Card> {
+        self.item_draw_pile.get_all()
+    }
+
 }
+
 
 
 struct CardPile {
@@ -53,8 +58,8 @@ impl CardPile {
         self.cards.push(card);
     }
 
-    fn get_all(self) -> Vec<Card> {
-        self.cards
+    fn get_all(&self) -> Vec<Card> {
+        self.cards.clone()
     }
 }
 

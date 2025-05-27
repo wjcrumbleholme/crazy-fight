@@ -1,0 +1,8 @@
+{
+    "name": "Alchemist",
+    "id": "alchemist",
+    "card_type": "Character",
+    "img_path": "alchemist.png",
+    "description": "While active, all people potions can be used as people pickers. All characters gained this way deal no damage in the next battle.",
+    "ability": null
+}

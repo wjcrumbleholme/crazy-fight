@@ -38,8 +38,9 @@ impl CardManager {
 #[derive(Deserialize, Clone)]
 pub enum CardType {
     Character,
+    SuperCharacter,
     Item,
-    PowerUp,
+    Addon,
     BattleCard,
     Weapon
 }
@@ -61,6 +62,13 @@ pub struct Ability {
     params: Option<HashMap<String, i32>>,
 }
 
+fn remove_filename(path: &str) -> &str {
+    match path.rfind('/') {
+        Some(index) => &path[..index],
+        None => path, // no slash found, return original
+    }
+}
+
 impl Card {
     pub fn get_type(&self) -> &CardType {
         &self.card_type
@@ -73,7 +81,9 @@ impl Card {
     }
     pub fn load_from_file(path: &str) -> Self {
         let data = fs::read_to_string(path).expect("Failed to read file");
-        let card: Self = serde_json::from_str(&data).expect("Failed to parse JSON");
+        let mut card: Self = serde_json::from_str(&data).expect("Failed to parse JSON");
+
+        card.img_path = remove_filename(path).to_owned() + "/" + &card.img_path;
 
         println!("Loaded card {}", card.name);
 

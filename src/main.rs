@@ -74,7 +74,16 @@ async fn main() {
     // }
 
     let mut game_manager = GameManger::new();
-    game_manager.load_deck("res/decks/example_deck");
+    game_manager.load_deck("res/decks/base_deck");
+    for card in game_manager.get_deck_manager().get_item_draw_pile() {
+        let card_load_ui = CardUi::new(
+                Position::Align(Alignment::Centre), 
+                Position::Align(Alignment::Centre),
+                load_texture(&card.get_img_path()).await.unwrap(), 
+                || {println!("Card loaded clicked")}
+            );
+            card_view.add_child(Box::new(card_load_ui));
+    }
 
     
 
