@@ -1,0 +1,8 @@
+{
+    "name": "Speed Potion",
+    "id": "speed_potion",
+    "card_type": "item",
+    "img_path": "speed_potion.png",
+    "description": "Pick up one extra card on your next turn (stackable)",
+    "play_time": "round"
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Super Random Guy",
+    "id": "super_random_guy",
+    "card_type": "super_character",
+    "img_path": "super_random_guy.png",
+    "description": "",
+    "play_time": null
+}

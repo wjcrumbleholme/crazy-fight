@@ -1,0 +1,8 @@
+{
+    "name": "Swap Potion",
+    "id": "swap_potion",
+    "card_type": "item",
+    "img_path": "swap_potion.png",
+    "description": "Swap one of your characters with one of your opponents characters. Play 2 to swap for super characters.",
+    "play_time": "round"
+}

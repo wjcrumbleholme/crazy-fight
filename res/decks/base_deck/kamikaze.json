@@ -1,0 +1,8 @@
+{
+    "name": "Kamikaze",
+    "id": "kamikaze",
+    "card_type": "addon",
+    "img_path": "kamikaze.png",
+    "description": "Add to one of your characters. During battle this character and the weakest character on the same team as it will be disabled",
+    "play_time": "round"
+}

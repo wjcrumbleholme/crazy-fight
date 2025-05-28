@@ -1,0 +1,8 @@
+{
+    "name": "Tailored Suit",
+    "id": "tailored_suit",
+    "card_type": "weapon",
+    "img_path": "tailored_suit.png",
+    "description": "+7 to Hitman",
+    "play_time": "battle_start"
+}

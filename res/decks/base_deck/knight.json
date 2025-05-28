@@ -1,0 +1,8 @@
+{
+    "name": "Knight",
+    "id": "knight",
+    "card_type": "character",
+    "img_path": "knight.json",
+    "description": "",
+    "play_time": "immediately"
+}

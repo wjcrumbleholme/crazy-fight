@@ -1,0 +1,8 @@
+{
+    "name": "Big Cheese",
+    "id": "big_cheese",
+    "card_type": "character",
+    "img_path": "big_cheese.png",
+    "description": "Deal 5 extra damage per super card in a battle",
+    "play_time": "immediate"
+}

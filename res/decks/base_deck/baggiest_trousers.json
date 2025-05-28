@@ -1,0 +1,8 @@
+{
+    "name": "Baggiest Trousers",
+    "id": "baggiest_trousers",
+    "card_type": "weapon",
+    "img_path": "baggiest_trousers.png",
+    "description": "+8 to Skater",
+    "play_time": "battle_start"
+}

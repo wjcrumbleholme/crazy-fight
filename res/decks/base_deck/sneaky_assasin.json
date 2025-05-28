@@ -1,0 +1,8 @@
+{
+    "name": "Sneaky Assasin",
+    "id": "sneaky_assasin",
+    "card_type": "character",
+    "img_path": "sneaky_assasin.png",
+    "description": "Keep hidden in your hand and only play at the end of a battle. When played, choose a character from each opponent to disable",
+    "play_time": "battle_end"
+}

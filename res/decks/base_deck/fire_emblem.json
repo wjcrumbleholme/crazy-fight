@@ -1,0 +1,8 @@
+{
+    "name": "Fire Emblem",
+    "id": "fire_emblem",
+    "card_type": "weapon",
+    "img_path": "fire_emblem.png",
+    "description": "+7 to Dragon",
+    "play_time": "battle_start"
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Impending Doom",
+    "id": "impending_doom",
+    "card_type": "item",
+    "img_path": "impending_doom.png",
+    "description": "Play immediately after drawing. A fight will be called at the end of this round. This cannot be stopped.",
+    "play_time": "immediately"
+}

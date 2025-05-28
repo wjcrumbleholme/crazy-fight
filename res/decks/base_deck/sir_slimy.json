@@ -1,0 +1,8 @@
+{
+    "name": "Sir Slimy",
+    "id": "sir_slimy",
+    "card_type": "character",
+    "img_path": "sir_slimy.png",
+    "description": "",
+    "play_time": "immediate"
+}

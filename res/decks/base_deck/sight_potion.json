@@ -1,0 +1,8 @@
+{
+    "name": "Sight Potion",
+    "id": "sight_potion",
+    "card_type": "item",
+    "img_path": "sight_potion.png",
+    "description": "Choose an opponent who must either show you their cards or reveal an addon on one of their characters",
+    "play_time": "round"
+}

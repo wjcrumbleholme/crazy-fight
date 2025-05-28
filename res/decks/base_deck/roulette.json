@@ -1,0 +1,8 @@
+{
+    "name": "Roulette",
+    "id": "roulette",
+    "card_type": "item",
+    "img_path": "roulette",
+    "description": "Play immediately after drawing. Collect and shuffle all active characters and re-deal them out to each player. Characters keep all active addons and super upgrades. This cannot be stopped.",
+    "play_time": "immediate"
+}

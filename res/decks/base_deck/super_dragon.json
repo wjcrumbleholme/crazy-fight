@@ -1,0 +1,8 @@
+{
+    "name": "Super Dragon",
+    "id": "super_dragon",
+    "card_type": "super_character",
+    "img_path": "super_dragon.png",
+    "description": "",
+    "play_time": null
+}

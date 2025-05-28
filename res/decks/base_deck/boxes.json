@@ -1,0 +1,8 @@
+{
+    "name": "Boxes",
+    "id": "boxes",
+    "card_type": "weapon",
+    "img_path": "boxes.png",
+    "description": "+5 to the collector",
+    "play_time": "battle_start"
+}

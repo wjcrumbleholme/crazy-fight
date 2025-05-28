@@ -1,0 +1,8 @@
+{
+    "name": "Mutant",
+    "id": "mutant",
+    "card_type": "character",
+    "img_path": "mutant.png",
+    "description": "Choose a character from an opponent. This card uses that card's attack and ability.",
+    "play_time": "immediate"
+}

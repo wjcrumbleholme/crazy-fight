@@ -1,7 +1,7 @@
 {
     "name": "Booster",
     "id": "booster",
-    "card_type": "Addon",
+    "card_type": "addon",
     "img_path": "booster.png",
     "description": "During battle, this character deals 5 extra damage",
     "play_time": "round",

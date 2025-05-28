@@ -1,0 +1,8 @@
+{
+    "name": "Baton",
+    "id": "baton",
+    "card_type": "weapon",
+    "img_path": "baton.png",
+    "description": "+6 to Policeman",
+    "play_time": "battle_start"
+}

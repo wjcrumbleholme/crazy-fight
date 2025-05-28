@@ -1,0 +1,8 @@
+{
+    "name": "Radioactive Stuff",
+    "id": "radioactive_stuff",
+    "card_type": "weapon",
+    "img_path": "radioactive_stuff.png",
+    "description": "+8 to Nuke Launcher",
+    "play_time": "battle_start"
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Demoman",
+    "id": "demoman",
+    "card_type": "character",
+    "img_path": "demoman.png",
+    "description": "",
+    "play_time": "immediate"
+}

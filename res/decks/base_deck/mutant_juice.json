@@ -1,0 +1,8 @@
+{
+    "name": "Mutant Juice",
+    "id": "mutant_juice",
+    "card_type": "weapon",
+    "img_path": "mutant_juice.png",
+    "description": "Deals 0 damage or half of mutant's damage if anyone has mutant active",
+    "play_time": "battle_start"
+}

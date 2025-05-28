@@ -1,0 +1,8 @@
+{
+    "name": "Boomerang",
+    "id": "boomerang",
+    "card_type": "addon",
+    "img_path": "boomerang.png",
+    "description": "Add to one of your characters. During battle, this character will return to you if it had previously been taken from you",
+    "play_time": "round"
+}

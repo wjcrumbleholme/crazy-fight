@@ -1,0 +1,8 @@
+{
+    "name": "Surfer",
+    "id": "surfer",
+    "card_type": "character",
+    "img_path": "surfer.png",
+    "description": "",
+    "play_time": "immediate"
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Golf",
+    "id": "golf",
+    "card_type": "item",
+    "img_path": "golf.png",
+    "description": "Play immediately after drawing. In the next battle the player with the lowest scores will win their fights. This cannot be stopped",
+    "play_time": "immediately"
+}

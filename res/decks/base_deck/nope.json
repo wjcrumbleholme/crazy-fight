@@ -1,0 +1,8 @@
+{
+    "name": "Nope",
+    "id": "nope",
+    "card_type": "item",
+    "img_path": "nope.png",
+    "description": "Play after an opponent plays a card to cancel the effect of that card",
+    "play_time": "response"
+}

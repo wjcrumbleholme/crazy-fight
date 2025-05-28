@@ -1,0 +1,8 @@
+{
+    "name": "Trap",
+    "id": "trap",
+    "card_type": "addon",
+    "img_path": "trap.png",
+    "description": "Add to on of your characters. If this character is swapped, reveal this addon and the player who swapped for it is frozen immediately until the end of next round.",
+    "play_time": "round"
+}

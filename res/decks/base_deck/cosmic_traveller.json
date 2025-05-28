@@ -1,0 +1,8 @@
+{
+    "name": "Cosmic Traveller",
+    "id": "cosmic_traveller",
+    "card_type": "character",
+    "img_path": "cosmic_traveller.png",
+    "description": "As long as this card is active, choose one turn to take 2 cards from the discard pile",
+    "play_time": "immediate"
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Super Tank",
+    "id": "super_tank",
+    "card_type": "super_character",
+    "img_path": "super_tank.png",
+    "description": "",
+    "play_time": null
+}

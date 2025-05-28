@@ -1,0 +1,8 @@
+{
+    "name": "Megaphone",
+    "id": "megaphone",
+    "card_type": "item",
+    "img_path": "megaphone.png",
+    "description": "Add to one of your characters. If this character is silenced, reveal this addon to block the effect of the silencer.",
+    "play_time": "round"
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Wormhole Potion",
+    "id": "wormhole_potion",
+    "card_type": "item",
+    "img_path": "wormhole_potion.png",
+    "description": "Take a card of your choice from the discard pile.",
+    "play_time": "round"
+}

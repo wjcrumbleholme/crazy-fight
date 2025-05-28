@@ -1,0 +1,8 @@
+{
+    "name": "Bone",
+    "id": "bone",
+    "card_type": "weapon",
+    "img_path": "bone.png",
+    "description": "+6 to Dog",
+    "play_time": "battle_start"
+}

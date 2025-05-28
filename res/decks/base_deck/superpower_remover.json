@@ -1,0 +1,8 @@
+{
+    "name": "Superpower Remover",
+    "id": "superpower_remover",
+    "card_type": "item",
+    "img_path": "superpower_remover",
+    "description": "Remove a super card of your choice from 1 opponent",
+    "play_time": "round"
+}

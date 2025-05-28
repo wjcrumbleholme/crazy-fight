@@ -1,0 +1,8 @@
+{
+    "name": "Slimy Tentacle",
+    "id": "slimy_tentacle",
+    "card_type": "weapon",
+    "img_path": "slimy_tentacle.png",
+    "description": "+8 to Sir Slimy",
+    "play_time": "battle_start"
+}

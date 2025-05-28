@@ -1,0 +1,8 @@
+{
+    "name": "Slow Potion",
+    "id": "slow_potion",
+    "card_type": "item",
+    "img_path": "slow_potion.png",
+    "description": "Choose an opponent to pick up 1 less card on their next turn (stackable)",
+    "play_time": "round"
+}

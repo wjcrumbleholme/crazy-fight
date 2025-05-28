@@ -1,0 +1,8 @@
+{
+    "name": "Sword",
+    "id": "sword",
+    "card_type": "weapon",
+    "img_path": "sword.png",
+    "description": "+6 to Knight",
+    "play_time": "battle_start"
+}

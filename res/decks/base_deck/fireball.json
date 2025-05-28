@@ -1,0 +1,8 @@
+{
+    "name": "Fireball",
+    "id": "fireball",
+    "card_type": "weapon",
+    "img_path": "fireball.png",
+    "description": "+8 to Wizard",
+    "play_time": "battle_start"
+}

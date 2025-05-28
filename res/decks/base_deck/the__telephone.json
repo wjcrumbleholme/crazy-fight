@@ -1,0 +1,8 @@
+{
+    "name": "The Telephone",
+    "id": "the_telephone",
+    "card_type": "weapon",
+    "img_path": "the_telephone.png",
+    "description": "+8 to Big Cheese",
+    "play_time": "battle_start"
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Boxing Gloves",
+    "id": "boxing_gloves",
+    "card_type": "weapon",
+    "img_path": "boxing_gloves.png",
+    "description": "+7 to Brawler",
+    "play_time": "battle_start"
+}

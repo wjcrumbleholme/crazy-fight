@@ -1,0 +1,8 @@
+{
+    "name": "Haunted Bottle",
+    "id": "haunted_bottle",
+    "card_type": "weapon",
+    "img_path": "haunted_bottle.png",
+    "description": "+5 to Ghost",
+    "play_time": "battle_start"
+}

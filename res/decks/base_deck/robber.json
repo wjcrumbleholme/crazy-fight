@@ -1,0 +1,8 @@
+{
+    "name": "Robber",
+    "id": "robber",
+    "card_type": "character",
+    "img_path": "robber.png",
+    "description": "",
+    "play_time": "immediate"
+}

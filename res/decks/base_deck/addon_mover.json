@@ -1,7 +1,7 @@
 {
     "name": "Addon Mover",
     "id": "addon_mover",
-    "card_type": "Item",
+    "card_type": "item",
     "img_path": "addon_mover.png",
     "description": "Remove an addon from any character and put it on any other character",
     "play_time": "round",

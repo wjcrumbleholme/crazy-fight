@@ -1,0 +1,8 @@
+{
+    "name": "Ninja",
+    "id": "ninja",
+    "card_type": "character",
+    "img_path": "ninja.png",
+    "description": "",
+    "play_time": "immediate"
+}

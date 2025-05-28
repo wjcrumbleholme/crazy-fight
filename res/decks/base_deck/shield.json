@@ -1,0 +1,8 @@
+{
+    "name": "Shield",
+    "id": "shield",
+    "card_type": "item",
+    "img_path": "shield.png",
+    "description": "Play after an opponent plays a card against you to block the effect of that card. Once played, it will block the effects of all cards played against you for the rest of that round",
+    "play_time": "response"
+}

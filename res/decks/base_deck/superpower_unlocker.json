@@ -1,0 +1,8 @@
+{
+    "name": "Superpower Unlocker",
+    "id": "superpower_unlocker",
+    "card_type": "item",
+    "img_path": "superpower_unlocker.png",
+    "description": "Take all super cards matching your character cards. Shuffle them and draw 1 randomly to upgrade that character.",
+    "play_time": "round"
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Shuriken",
+    "id": "shuriken",
+    "card_type": "weapon",
+    "img_path": "shuriken.png",
+    "description": "+8 to Ninja",
+    "play_time": "battle_start"
+}

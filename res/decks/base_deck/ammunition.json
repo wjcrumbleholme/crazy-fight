@@ -1,0 +1,8 @@
+{
+    "name": "Ammunition",
+    "id": "ammunition",
+    "card_type": "weapon",
+    "img_path": "ammunition.png",
+    "description": "+9 to soldier",
+    "play_time": "battle_start"
+}

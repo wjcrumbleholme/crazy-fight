@@ -1,0 +1,8 @@
+{
+    "name": "Dragon",
+    "id": "dragon",
+    "card_type": "character",
+    "img_path": "dragon.png",
+    "description": "",
+    "play_time": "immediate"
+}

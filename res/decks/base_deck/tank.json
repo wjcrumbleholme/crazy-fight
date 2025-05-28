@@ -1,0 +1,8 @@
+{
+    "name": "Tank",
+    "id": "tank",
+    "card_type": "character",
+    "img_path": "tank.png",
+    "description": "",
+    "play_time": "immediate"
+}

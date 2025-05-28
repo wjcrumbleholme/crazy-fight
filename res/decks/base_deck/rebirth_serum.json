@@ -1,0 +1,8 @@
+{
+    "name": "Rebirth Serum",
+    "id": "rebirth_serum",
+    "card_type": "addon",
+    "img_path": "rebirth_serum.png",
+    "description": "Add to one of your characters. After battle the player who has this character can keep it as an extra at the start of the next round",
+    "play_time": "round"
+}

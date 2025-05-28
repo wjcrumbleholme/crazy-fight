@@ -1,8 +1,8 @@
 {
     "name": "Addon Remover",
     "id": "addon_remover",
-    "card_type": "Item",
+    "card_type": "item",
     "img_path": "addon_remover.png",
     "description": "Remove an addon from any character and put it in the discard pile",
-    "ability": null
+    "play_time": "round"
 }

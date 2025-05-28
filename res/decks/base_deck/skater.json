@@ -1,0 +1,8 @@
+{
+    "name": "Skater",
+    "id": "skater",
+    "card_type": "character",
+    "img_path": "skater.png",
+    "description": "",
+    "play_time": "immediate"
+}

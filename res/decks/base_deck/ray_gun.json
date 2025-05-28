@@ -1,0 +1,8 @@
+{
+    "name": "Ray Gun",
+    "id": "ray_gun",
+    "card_type": "weapon",
+    "img_path": "ray_gun.png",
+    "description": "+7 to Alien",
+    "play_time": "battle_start"
+}

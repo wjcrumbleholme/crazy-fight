@@ -1,0 +1,8 @@
+{
+    "name": "Revolver",
+    "id": "revolver",
+    "card_type": "weapon",
+    "img_path": "revolver.png",
+    "description": "+7 to Cowboy",
+    "play_time": "battle_start"
+}

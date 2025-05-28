@@ -1,0 +1,8 @@
+{
+    "name": "Super Policeman",
+    "id": "super_policeman",
+    "card_type": "super_character",
+    "img_path": "super_policeman.png",
+    "description": "",
+    "play_time": null
+}

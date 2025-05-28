@@ -1,0 +1,8 @@
+{
+    "name": "Wrench",
+    "id": "wrench",
+    "card_type": "weapon",
+    "img_path": "wrench.png",
+    "description": "+7 to Engineer",
+    "play_time": "battle_start"
+}

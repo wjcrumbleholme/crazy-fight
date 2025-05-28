@@ -1,0 +1,8 @@
+{
+    "name": "Super Training",
+    "id": "super_training",
+    "card_type": "addon",
+    "img_path": "super_training.png",
+    "description": "Add to one of your characters. During battle this card will upgrade to its super variant",
+    "play_time": "round"
+}

@@ -1,0 +1,8 @@
+{
+    "name": "True Reset",
+    "id": "true_reset",
+    "card_type": "item",
+    "img_path": "true_reset.png",
+    "description": "Play to discard all of your active characters and cards in your hand, and replace them with new cards from the draw piles. New characters keep the addons and super upgrades of the characters they replaced.",
+    "play_time": "immediate"
+}
