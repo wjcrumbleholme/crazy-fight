@@ -1,7 +1,7 @@
 {
     "name": "Fork",
     "id": "fork",
-    "card_type": "weapon",
+    "card_type": "Weapon",
     "img_path": "fork.png",
     "description": "+5 to chef",
     "play_time": "battle_start"

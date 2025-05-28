@@ -57,3 +57,20 @@
 - damage: How much base damage this card does
 - synergy_card_id: Id of the character card that gives this damage
 - synergy_damage: How much more damage this synergy does
+
+
+# Condition
+- condition:
+- operator:
+    - equal
+    - not_equal
+    - greater_than
+    - less_than
+    - greater_than_or_equal_to
+    - less_than_or_equal_to
+- string:
+- bool:
+- int:
+    
+
+if condition operator value

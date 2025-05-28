@@ -1,7 +1,7 @@
 {
     "name": "Health Potion",
     "id": "health_potion",
-    "card_type": "battle_item",
+    "card_type": "BattleItem",
     "img_path": "health_potion.png",
     "description": "Play during battle. Choose one opponent to take 10 less damage from",
     "play_time": "battle"

@@ -1,4 +1,4 @@
-use macroquad::{color::WHITE, input::{is_mouse_button_pressed, mouse_position, MouseButton}, texture::{draw_texture, Texture2D}};
+use macroquad::{color::WHITE, input::{is_mouse_button_pressed, mouse_position, MouseButton}, math::vec2, texture::{draw_texture_ex, DrawTextureParams, Texture2D}};
 
 use super::{Position, Size, UIElement};
 
@@ -17,8 +17,8 @@ impl CardUi {
             img: img, 
             x: x, 
             y: y, 
-            w: Size::Abs(100.0), 
-            h: Size::Abs(140.0), 
+            w: Size::Abs(160.0), 
+            h: Size::Abs(224.0), 
             on_click: Box::new(on_click), 
         }
     }
@@ -41,7 +41,12 @@ impl UIElement for CardUi {
         }
 
         // Draw background
-        draw_texture(&self.img, x, y, WHITE);
+        draw_texture_ex(&self.img, x, y, WHITE, 
+                    DrawTextureParams {
+                        dest_size: Some(vec2(w, h)),
+                        ..Default::default()
+                    }
+            );
 
         
 

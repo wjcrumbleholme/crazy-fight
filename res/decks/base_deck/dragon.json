@@ -1,7 +1,7 @@
 {
     "name": "Dragon",
     "id": "dragon",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "dragon.png",
     "description": "",
     "play_time": "immediate"

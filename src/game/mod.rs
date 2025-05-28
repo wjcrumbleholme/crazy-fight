@@ -1,16 +1,25 @@
 use std::{collections::HashMap, fs::{self, read_dir}};
 
-use card::{CardManager, CardType};
+use card::{CardManager, Card};
 use deck::DeckManager;
+use event_manager::EventManager;
+use game_state::GameState;
+use player::PlayerManager;
 
 pub mod card;
 pub mod player;
 pub mod deck;
+pub mod game_state;
+pub mod event_manager;
+pub mod condition;
 
 
 pub struct GameManger {
     deck_manager: DeckManager,
     card_manager: CardManager,
+    game_state: GameState,
+    player_manager: PlayerManager,
+    event_manager: EventManager,
 }
 
 impl GameManger {
@@ -18,6 +27,9 @@ impl GameManger {
         Self {
             deck_manager: DeckManager::new(),
             card_manager: CardManager::new(),
+            game_state: GameState::new(),
+            player_manager: PlayerManager::new(),
+            event_manager: EventManager::new(),
         }
     }
 
@@ -61,8 +73,8 @@ impl GameManger {
         for (card_id, count) in deck_info {
             for _ in 0..count {
                 if let Some(card) = self.card_manager.get_card(&card_id) {
-                    match card.get_type() {
-                        CardType::Character => {
+                    match card {
+                        Card::Character(_c) => {
                             //Add to character draw pile
                             self.deck_manager.add_character_draw_pile(card.clone());
                         },

@@ -1,7 +1,7 @@
 {
     "name": "Flaming Arrows",
     "id": "flaming_arrows",
-    "card_type": "weapon",
+    "card_type": "Weapon",
     "img_path": "flaming_arrows.png",
     "description": "+7 to Archer",
     "play_time": "battle_start"

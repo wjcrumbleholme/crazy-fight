@@ -1,7 +1,7 @@
 {
     "name": "Spacetime Manipulator",
     "id": "spacetime_manipulator",
-    "card_type": "weapon",
+    "card_type": "Weapon",
     "img_path": "spacetime_manipulator.png",
     "description": "+7 to Cosmic Traveller",
     "play_time": "battle_start"

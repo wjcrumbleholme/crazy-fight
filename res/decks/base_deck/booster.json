@@ -1,9 +1,9 @@
 {
     "name": "Booster",
     "id": "booster",
-    "card_type": "addon",
+    "card_type": "Addon",
     "img_path": "booster.png",
-    "description": "During battle, this character deals 5 extra damage",
+    "description": "During battle, this Character deals 5 extra damage",
     "play_time": "round",
     "reveal_time": "battle",
     "ability": {
@@ -17,7 +17,7 @@
                 "action": "add_damage",
                 "amount": 5,
                 "destination_target": {
-                    "type": "character",
+                    "type": "Character",
                     "owner": "self",
                     "card": "attached"
                 }

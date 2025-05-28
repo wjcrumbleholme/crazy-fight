@@ -1,7 +1,7 @@
 {
     "name": "Headphones",
     "id": "headphones",
-    "card_type": "weapon",
+    "card_type": "Weapon",
     "img_path": "headphones.png",
     "description": "+7 to musician",
     "play_time": "battle_start"

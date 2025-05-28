@@ -1,7 +1,7 @@
 {
     "name": "Cat",
     "id": "cat",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "cat.png",
     "description": "",
     "play_time": "immediate"

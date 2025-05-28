@@ -4,5 +4,5 @@
     "card_type": "Weapon",
     "img_path": "test_card_2.png",
     "description": "Test card to test the parsing system",
-    "ability": null
+    "ability": "none"
 }

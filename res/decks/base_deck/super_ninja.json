@@ -1,8 +1,8 @@
 {
     "name": "Super Ninja",
     "id": "super_ninja",
-    "card_type": "super_character",
+    "card_type": "SuperCharacter",
     "img_path": "super_ninja.png",
     "description": "",
-    "play_time": null
+    "play_time": "none"
 }

@@ -1,7 +1,7 @@
 {
     "name": "Dark Matter",
     "id": "dark_matter",
-    "card_type": "weapon",
+    "card_type": "Weapon",
     "img_path": "dark_matter.png",
     "description": "+11 to Cosmic Wyrm",
     "play_time": "battle_start"

@@ -1,7 +1,7 @@
 {
     "name": "Engineer",
     "id": "engineer",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "engineer.png",
     "description": "As long as this card is active, you can put multiple addons on individual characters",
     "play_time": "immediate"

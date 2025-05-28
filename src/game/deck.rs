@@ -5,9 +5,8 @@
 // Character draw pile 
 // Deck manager - 
 
-use std::{collections::HashMap, fs::{self, read_dir}};
 
-use super::{card::{Card, CardManager, CardType}, GameManger};
+use super::{card::{Card}};
 
 
 pub struct DeckManager {

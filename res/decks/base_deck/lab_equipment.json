@@ -1,7 +1,7 @@
 {
     "name": "Lab Equipment",
     "id": "lab_equipment",
-    "card_type": "weapon",
+    "card_type": "Weapon",
     "img_path": "lab_equipment.png",
     "description": "+6 to Mad Scientist",
     "play_time": "battle_start"

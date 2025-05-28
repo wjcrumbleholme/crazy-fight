@@ -1,7 +1,7 @@
 {
     "name": "Freeze Potion",
     "id": "freeze_potion",
-    "card_type": "item",
+    "card_type": "Item",
     "img_path": "freeze_potion",
     "description": "Choose 1 opponent to miss their entire next turn (overrides effect of speed/slow potions)",
     "play_time": "round"

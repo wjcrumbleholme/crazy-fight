@@ -1,7 +1,7 @@
 {
     "name": "Wizard",
     "id": "wizard",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "wizard.png",
     "description": "",
     "play_time": "immediate"

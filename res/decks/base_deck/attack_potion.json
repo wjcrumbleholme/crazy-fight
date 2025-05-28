@@ -1,7 +1,7 @@
 {
     "name": "Attack Potion",
     "id": "attack_potion",
-    "card_type": "battle_item",
+    "card_type": "BattleItem",
     "img_path": "attack_potion.png",
     "description": "Play during battle, choose 1 opponent to take 10 more damage",
     "play_time": "battle"

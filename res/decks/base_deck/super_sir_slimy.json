@@ -1,8 +1,8 @@
 {
     "name": "Super Sir Slimy",
     "id": "super_sir_slimy",
-    "card_type": "super_character",
+    "card_type": "SuperCharacter",
     "img_path": "super_sir_slimy.png",
     "description": "",
-    "play_time": null
+    "play_time": "none"
 }

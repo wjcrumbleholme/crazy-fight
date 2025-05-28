@@ -1,11 +1,11 @@
 {
     "name": "Addon Mover",
     "id": "addon_mover",
-    "card_type": "item",
+    "card_type": "Item",
     "img_path": "addon_mover.png",
-    "description": "Remove an addon from any character and put it on any other character",
+    "description": "Remove an Addon from any Character and put it on any other Character",
     "play_time": "round",
-    "reveal_time": null,
+    "reveal_time": "none",
     "ability": {
         "type": "one_time",
         "conditions": [],
@@ -13,12 +13,12 @@
                 {
                 "action": "addon_transfer",
                 "source_target": {
-                    "type": "character",
+                    "type": "Character",
                     "owner": "choose",
                     "card": "choose"
                 },
                 "destination_target": {
-                    "type": "character",
+                    "type": "Character",
                     "owner": "choose",
                     "card": "choose"
                 }

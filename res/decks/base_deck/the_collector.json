@@ -1,7 +1,7 @@
 {
     "name": "The Collector",
     "id": "the_collector",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "the_collector.png",
     "description": "If this card is active at the end of battle, keep all of your unused cards when starting the next round.",
     "play_time": "immediate"

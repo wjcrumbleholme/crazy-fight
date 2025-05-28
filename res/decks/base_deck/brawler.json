@@ -1,25 +1,8 @@
 {
     "name": "Brawler",
     "id": "brawler",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "brawler.png",
     "description": "Deal double damage if you called the fight (this card only)",
-    "play_time": "immediate",
-    "reveal_time": null,
-    "ability": {
-        "type": "passive",
-        "conditions": [
-            {"type": "if_player_called_battle"}
-        ],
-        "effects": [
-            {
-                "action": "double_strength",
-                "destination_target": {
-                    "type": "character",
-                    "owner": "self",
-                    "card": "self"
-                }
-            }
-        ]
-    }
+    "play_time": "immediate"
 }

@@ -1,5 +1,12 @@
 {
     "addon_mover" : 1,
-    "addon_remover": 3,
-    "alchemist": 2
+    "addon_remover": 1,
+    "alchemist": 1,
+    "dog": 1,
+    "fork": 1,
+    "nope": 1,
+    "dark_matter": 1,
+    "staff_of_rebirth": 1,
+    "super_cat": 1
+
 }

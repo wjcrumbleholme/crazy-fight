@@ -1,8 +1,8 @@
 {
     "name": "Super Unicorn",
     "id": "super_unicon",
-    "card_type": "super_character",
+    "card_type": "SuperCharacter",
     "img_path": "super_unicorn.png",
     "description": "",
-    "play_time": null
+    "play_time": "none"
 }

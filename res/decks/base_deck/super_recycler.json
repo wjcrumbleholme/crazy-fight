@@ -1,8 +1,8 @@
 {
     "name": "Super Recycler",
     "id": "super_recycler",
-    "card_type": "addon",
+    "card_type": "Addon",
     "img_path": "super_recycler.png",
-    "description": "Add to on of your characters. If this character is super upgraded at the end of battle, keep the super upgrade when starting the next round.",
+    "description": "Add to on of your characters. If this Character is super upgraded at the end of battle, keep the super upgrade when starting the next round.",
     "play_time": "round"
 }

@@ -1,7 +1,7 @@
 {
     "name": "Musician",
     "id": "musician",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "musician.png",
     "description": "",
     "play_time": "immediate"

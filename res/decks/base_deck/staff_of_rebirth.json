@@ -1,7 +1,7 @@
 {
     "name": "Staff of Rebirth",
     "id": "staff_of_rebirth",
-    "card_type": "item",
+    "card_type": "Item",
     "img_path": "staff_of_rebirth.png",
     "description": "Keep in your hand. If during a fight you are eliminated, play this card to revive yourself, bringing you back into the game. Once this card is played, it is removed for the entire rest of the game.",
     "play_time": "eliminated"

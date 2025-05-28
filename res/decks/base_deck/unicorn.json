@@ -1,7 +1,7 @@
 {
     "name": "Unicorn",
     "id": "unicorn",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "unicorn.png",
     "description": "",
     "play_time": "immediate"

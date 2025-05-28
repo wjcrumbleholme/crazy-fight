@@ -1,7 +1,7 @@
 {
     "name": "Dog",
     "id": "dog",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "dog.json",
     "description": "",
     "play_time": "immediate"

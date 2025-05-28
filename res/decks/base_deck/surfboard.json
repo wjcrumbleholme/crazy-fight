@@ -1,7 +1,7 @@
 {
     "name": "Surfboard",
     "id": "surfboard",
-    "card_type": "weapon",
+    "card_type": "Weapon",
     "img_path": "surfboard.png",
     "description": "+6 to Surfer",
     "play_time": "battle_start"

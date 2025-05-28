@@ -1,8 +1,8 @@
 {
     "name": "Super Demoman",
     "id": "super_demoman",
-    "card_type": "super_character",
+    "card_type": "SuperCharacter",
     "img_path": "super_demoman.png",
     "description": "",
-    "play_time": null
+    "play_time": "none"
 }

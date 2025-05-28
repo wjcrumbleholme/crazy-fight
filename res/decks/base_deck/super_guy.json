@@ -1,7 +1,7 @@
 {
     "name": "Super Guy",
     "id": "super_guy",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "super_guy.png",
     "description": "Deal 10 damage to all players if you have random guy active in battle.",
     "play_time": "immediate"

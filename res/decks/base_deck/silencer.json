@@ -1,8 +1,8 @@
 {
     "name": "Silencer",
     "id": "silencer",
-    "card_type": "item",
+    "card_type": "Item",
     "img_path": "silencer.png",
-    "description": "Choose a character from one opponent who loses their ability until after the next battle",
+    "description": "Choose a Character from one opponent who loses their ability until after the next battle",
     "play_time": "round"
 }

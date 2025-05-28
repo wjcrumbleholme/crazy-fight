@@ -1,8 +1,8 @@
 {
     "name": "People Potion",
     "id": "people_potion",
-    "card_type": "item",
+    "card_type": "Item",
     "img_path": "people_potion.png",
-    "description": "Draw another character card",
+    "description": "Draw another Character card",
     "play_time": "round"
 }

@@ -1,7 +1,7 @@
 {
     "name": "Mad Scientist",
     "id": "mad_scientist",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "mad_scientist.png",
     "description": "As long as this card is active, all potion cards can be used twice before discarding.",
     "play_time": "immediate"

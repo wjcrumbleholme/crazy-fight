@@ -4,5 +4,5 @@
     "card_type": "Character",
     "img_path": "test_card_3.png",
     "description": "Test card to test the parsing system",
-    "ability": null
+    "ability": "none"
 }

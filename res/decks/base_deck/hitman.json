@@ -1,7 +1,7 @@
 {
     "name": "Hitman",
     "id": "hitman",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "hitman.png",
     "description": "In battle, choose one opponent to take 10 extra damage from all players",
     "play_time": "immediately"

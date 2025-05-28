@@ -1,8 +1,8 @@
 {
     "name": "Super Musician",
     "id": "super_musician",
-    "card_type": "super_character",
+    "card_type": "SuperCharacter",
     "img_path": "super_musician.png",
     "description": "",
-    "play_time": null
+    "play_time": "none"
 }

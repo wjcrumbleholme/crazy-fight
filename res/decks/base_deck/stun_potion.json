@@ -1,8 +1,8 @@
 {
     "name": "Stun Potion",
     "id": "stun_potion",
-    "card_type": "battle_item",
+    "card_type": "BattleItem",
     "img_path": "stun_potion.png",
-    "description": "Play during battle to disable a character card of your choice from 1 opponent",
+    "description": "Play during battle to disable a Character card of your choice from 1 opponent",
     "play_time": "battle"
 }

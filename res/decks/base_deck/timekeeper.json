@@ -1,11 +1,11 @@
 {
     "name": "Timekeeper",
     "id": "timekeeper",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "timekeeper.png",
     "description": "As long as this card is active, choose a turn for all opponents to skip a turn.",
     "play_time": "immediate",
-    "reveal_time": null,
+    "reveal_time": "none",
     "ability": {
         "type": "one_time",
         "trigger_mode": "on_click",
@@ -23,7 +23,7 @@
             {
                 "action": "disable_card",
                 "destination_target": {
-                    "type":"character",
+                    "type":"Character",
                     "owner": "self",
                     "card": "self"
                 }

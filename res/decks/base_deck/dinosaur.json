@@ -1,7 +1,7 @@
 {
     "name": "Dinosaur",
     "id": "dinosaur",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "dinosaur.png",
     "description": "",
     "play_time": "immediate"

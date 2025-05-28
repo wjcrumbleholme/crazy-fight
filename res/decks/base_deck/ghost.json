@@ -1,8 +1,8 @@
 {
     "name": "Ghost",
     "id": "ghost",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "ghost.png",
-    "description": "As long as this card is active, all your other character are immune to stuns and swaps",
+    "description": "As long as this card is active, all your other Character are immune to stuns and swaps",
     "play_time": "immediate"
 }

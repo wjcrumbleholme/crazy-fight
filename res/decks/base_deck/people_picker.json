@@ -1,8 +1,8 @@
 {
     "name": "People Picker",
     "id": "people_picker",
-    "card_type": "item",
+    "card_type": "Item",
     "img_path": "people_picker.png",
-    "description": "Draw a character card of your choice",
+    "description": "Draw a Character card of your choice",
     "play_time": "round"
 }

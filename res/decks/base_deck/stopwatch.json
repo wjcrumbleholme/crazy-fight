@@ -1,7 +1,7 @@
 {
     "name": "Stopwatch",
     "id": "stopwatch",
-    "card_type": "weapon",
+    "card_type": "Weapon",
     "img_path": "stopwatch.png",
     "description": "+8 to Timekeeper",
     "play_time": "battle_start"

@@ -1,7 +1,7 @@
 {
     "name": "Sizeable Bomb",
     "id": "sizeable_bomb",
-    "card_type": "weapon",
+    "card_type": "Weapon",
     "img_path": "sizeable_bomb.png",
     "description": "+8 to Demoman",
     "play_time": "battle_start"

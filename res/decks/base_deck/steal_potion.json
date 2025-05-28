@@ -1,7 +1,7 @@
 {
     "name": "Steal Potion",
     "id": "steal_potion",
-    "card_type": "item",
+    "card_type": "Item",
     "img_path": "steal_potion.png",
     "description": "Take a card from one opponents hand. Play 2 to ask for a specific card.",
     "play_time": "round"

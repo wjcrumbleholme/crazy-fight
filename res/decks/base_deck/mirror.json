@@ -1,11 +1,11 @@
 {
     "name": "Mirror",
     "id": "mirror",
-    "card_type": "item",
+    "card_type": "Item",
     "img_path": "mirror.png",
     "description": "Play after an opponent plays a card against you to reverse the effect of that card back upon them. Once played will reverse the effects of all cards played against you for the rest of that round",
     "play_time": "response",
-    "reveal_time": null,
+    "reveal_time": "none",
     "ability": {
         "type": "one_time",
         "conditions": [],

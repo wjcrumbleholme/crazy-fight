@@ -1,7 +1,6 @@
 use macroquad::{prelude::*};
 use ui::{button::Button, cardui::CardUi, container::Container, Alignment, Position, Size, UIElement};
-use game::{card::Card, GameManger};
-use std::fs::{read_dir, FileType};
+use game::{ GameManger};
 
 pub mod ui;
 pub mod game;
@@ -39,13 +38,6 @@ async fn main() {
         Size::Rel(0.1)
     );
 
-    //Card example
-    let mut example_card = CardUi::new(
-        Position::Align(Alignment::Centre), 
-        Position::Align(Alignment::Centre),
-        load_texture("res/decks/example_deck/test_card.png").await.unwrap(), 
-        || {println!("Card clicked")},
-    );
 
     let example_btn = Button::new(
         Position::Align(Alignment::Centre), 
@@ -59,19 +51,6 @@ async fn main() {
         || {println!("Button has been clicked!")},
     );
 
-    // // Load in the cards
-    // for path in read_dir("res").unwrap() {
-    //     if path.as_ref().unwrap().path().extension().unwrap() == "json" {
-    //         let card_load = Card::load_from_file(path.unwrap().path().to_str().unwrap());
-    //         let card_load_ui = CardUi::new(
-    //             Position::Align(Alignment::Centre), 
-    //             Position::Align(Alignment::Centre),
-    //             load_texture(&card_load.get_img_path()).await.unwrap(), 
-    //             || {println!("Card loaded clicked")}
-    //         );
-    //         card_view.add_child(Box::new(card_load_ui));
-    //     }
-    // }
 
     let mut game_manager = GameManger::new();
     game_manager.load_deck("res/decks/base_deck");
@@ -85,10 +64,6 @@ async fn main() {
             card_view.add_child(Box::new(card_load_ui));
     }
 
-    
-
-    
-    card_view.add_child(Box::new(example_card));
     root.add_child(Box::new(card_view));
     root.add_child(Box::new(example_btn));
 

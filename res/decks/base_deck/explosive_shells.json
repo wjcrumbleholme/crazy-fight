@@ -1,7 +1,7 @@
 {
     "name": "Explosive Shells",
     "id": "explosive_shells",
-    "card_type": "weapon",
+    "card_type": "Weapon",
     "img_path": "explosive_shells.png",
     "description": "+7 to tank",
     "play_time": "battle_start"

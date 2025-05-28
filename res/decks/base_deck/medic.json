@@ -1,7 +1,7 @@
 {
     "name": "Medic",
     "id": "medic",
-    "card_type": "character",
+    "card_type": "Character",
     "img_path": "medic.png",
     "description": "If your characters have the lowest combined score in the battle, take 10 less damage from all players",
     "play_time": "immediate"
