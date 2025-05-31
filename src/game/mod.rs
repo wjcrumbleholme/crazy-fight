@@ -6,12 +6,13 @@ use event_manager::EventManager;
 use game_state::GameState;
 use player::PlayerManager;
 
+
 pub mod card;
 pub mod player;
 pub mod deck;
 pub mod game_state;
 pub mod event_manager;
-pub mod condition;
+
 
 
 pub struct GameManger {
@@ -76,11 +77,11 @@ impl GameManger {
                     match card {
                         Card::Character(_c) => {
                             //Add to character draw pile
-                            self.deck_manager.add_character_draw_pile(card.clone());
+                            self.deck_manager.add_character_draw_pile(card_id.clone());
                         },
                         _ => {
                             //Add to regular draw pile
-                            self.deck_manager.add_item_draw_pile(card.clone());
+                            self.deck_manager.add_item_draw_pile(card_id.clone());
                         }
                     }
                     println!("Card ID {} succesfully added to the draw pile!", card_id)

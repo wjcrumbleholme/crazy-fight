@@ -1,30 +1,49 @@
 use std::{fs::{self}};
+use ability::Ability;
 use serde::Deserialize;
+use status::Status;
+use uuid::Uuid;
 use std::collections::HashMap;
 use macroquad::prelude::*;
 
-use super::{condition::Condition, player::{self, Player}};
 
+
+pub mod condition;
+pub mod effect;
+pub mod target;
+pub mod ability;
+pub mod status;
+pub mod duration;
 
 
 pub struct CardManager {
-    card_registry: HashMap<String, Card>
+    card_registry: HashMap<String, Card>,
+    instantiated_cards: HashMap<Uuid, Card>
 }
 
 impl CardManager {
     pub fn new() -> Self {
         Self {
             card_registry: HashMap::new(),
+            instantiated_cards: HashMap::new()
         }
     }
 
     pub fn register_card(&mut self, card_path: &str) {
         let loaded_card = Card::load_from_file(card_path);
-        self.card_registry.insert(loaded_card.get_id().clone(), loaded_card);
+        self.card_registry.insert(loaded_card.get_card_id().clone(), loaded_card);
     }
 
     pub fn get_card(&self, id: &str) -> Option<&Card> {
         self.card_registry.get(id)
+    }
+
+    pub fn get_card_from_instance_id(&self, instance_id: &Uuid) -> Option<&Card> {
+        self.instantiated_cards.get(instance_id)
+    }
+
+    pub fn get_card_from_instance_id_mut(&mut self, instance_id: &Uuid) -> Option<&mut Card> {
+        self.instantiated_cards.get_mut(instance_id)
     }
 
 }
@@ -46,16 +65,27 @@ pub enum Card {
 #[derive(Deserialize, Debug, Clone)]
 struct BaseCard {
     name: String,
-    id: String,
+    #[serde(rename = "id")]
+    card_id: String,
+    #[serde(skip)]
+    instance_id: Option<Uuid>,
     img_path: String,
     description: String,
     play_time: String,
+    #[serde(skip)]
     is_active: Option<bool>,
+    #[serde(skip)]
+    status_effects: Vec<Status>,
+    
 }
 
 impl BaseCard {
-    fn get_id(&self) -> String {
-        self.id.clone()
+    fn card_id(&self) -> &String {
+        &self.card_id
+    }
+
+    fn instance_id(&self) -> &Option<Uuid> {
+        &self.instance_id
     }
 
     fn get_img_path(&self) -> &String {
@@ -71,6 +101,8 @@ pub struct CharacterCard {
     base: BaseCard,
     damage: Option<i32>,
     super_char_id: Option<String>,
+    #[serde(skip)]
+    has_super_active: bool,
     ability: Option<Ability>,
 }
 
@@ -119,64 +151,20 @@ pub struct AddonCard {
 }
 
 
-// Ability structure
-#[derive(Deserialize, Debug, Clone)]
-pub struct Ability {
-    #[serde(rename = "type")]
-    ability_type: String,
-    trigger: Option<String>,
-    conditions: Option<Vec<Condition>>,
-    effects: Vec<Effect>,
-}
-
-impl Ability {
-    pub fn get_trigger(&self) -> Option<String>{
-        self.trigger.clone()
-    }
-
-    pub fn conditions_met(&self, player: &Player) -> bool {
-        //If there are no conditions, treat as the conditions being met
-        if let Some(conditions) = &self.conditions {
-            for condition in conditions {
-                if !condition.is_met(player) {
-                    return false;
-                }
-            }  
-        }
-        true
-    }
-}
-
-// Effect structure
-#[derive(Deserialize, Debug, Clone)]
-struct Effect {
-    action: String,
-    status: Option<String>,
-    amount: Option<i32>,
-    conditions: Option<Vec<Condition>>,
-    source_target: Option<Target>,
-    destination_target: Option<Target>,
-}
-
-// Target structure
-#[derive(Deserialize, Debug, Clone)]
-struct Target {
-    #[serde(rename = "type")]
-    target_type: String,
-    owner: Option<String>,
-    card: Option<String>,
-}
-
-
 
 
 trait HasBase {
     fn base(&self) -> &BaseCard;
+    fn mut_base(&mut self) -> &mut BaseCard;
 }
 
 impl HasBase for AddonCard {
     fn base(&self) -> &BaseCard {
         &self.base
+    }
+
+    fn mut_base(&mut self) -> &mut BaseCard {
+        &mut self.base
     }
 }
 
@@ -184,11 +172,19 @@ impl HasBase for BattleItemCard {
     fn base(&self) -> &BaseCard {
         &self.base
     }
+
+    fn mut_base(&mut self) -> &mut BaseCard {
+        &mut self.base
+    }
 }
 
 impl HasBase for CharacterCard {
     fn base(&self) -> &BaseCard {
         &self.base
+    }
+
+    fn mut_base(&mut self) -> &mut BaseCard {
+        &mut self.base
     }
 }
 
@@ -196,16 +192,28 @@ impl HasBase for ItemCard {
     fn base(&self) -> &BaseCard {
         &self.base
     }
+
+    fn mut_base(&mut self) -> &mut BaseCard {
+        &mut self.base
+    }
 }
 impl HasBase for SuperCharacterCard {
     fn base(&self) -> &BaseCard {
         &self.base
+    }
+
+    fn mut_base(&mut self) -> &mut BaseCard {
+        &mut self.base
     }
 }
 
 impl HasBase for WeaponCard {
     fn base(&self) -> &BaseCard {
         &self.base
+    }
+
+    fn mut_base(&mut self) -> &mut BaseCard {
+        &mut self.base
     }
 }
 
@@ -258,14 +266,25 @@ impl Card {
         card
     }
 
-    pub fn get_id(&self) -> String {
+    pub fn get_card_id(&self) -> &String {
         match self {
-            Card::Addon(c) => c.base().get_id(),
-            Card::BattleItem(c) => c.base().get_id(),
-            Card::Character(c) => c.base().get_id(),
-            Card::Item(c) => c.base().get_id(),
-            Card::SuperCharacter(c) => c.base().get_id(),
-            Card::Weapon(c) => c.base().get_id(),
+            Card::Addon(c) => c.base().card_id(),
+            Card::BattleItem(c) => c.base().card_id(),
+            Card::Character(c) => c.base().card_id(),
+            Card::Item(c) => c.base().card_id(),
+            Card::SuperCharacter(c) => c.base().card_id(),
+            Card::Weapon(c) => c.base().card_id(),
+        }
+    }
+
+    pub fn get_instance_id(&self) -> &Option<Uuid> {
+        match self {
+            Card::Addon(c) => c.base().instance_id(),
+            Card::BattleItem(c) => c.base().instance_id(),
+            Card::Character(c) => c.base().instance_id(),
+            Card::Item(c) => c.base().instance_id(),
+            Card::SuperCharacter(c) => c.base().instance_id(),
+            Card::Weapon(c) => c.base().instance_id(),
         }
     }
 
@@ -280,14 +299,25 @@ impl Card {
         }
     }
 
-    pub fn get_ability(&self) -> Option<Ability> {
+    pub fn get_ability(&self) -> &Option<Ability> {
         match self {
-            Card::Addon(c) => c.ability.clone(),
-            Card::BattleItem(c) => c.ability.clone(),
-            Card::Character(c) => c.ability.clone(),
-            Card::Item(c) => c.ability.clone(),
-            Card::SuperCharacter(c) => c.ability.clone(),
-            Card::Weapon(c) => None,
+            Card::Addon(c) => &c.ability,
+            Card::BattleItem(c) => &c.ability,
+            Card::Character(c) => &c.ability,
+            Card::Item(c) => &c.ability,
+            Card::SuperCharacter(c) => &c.ability,
+            Card::Weapon(c) => &None,
+        }
+    }
+
+    pub fn add_status_effect(&mut self, effect: Status) {
+        match self {
+            Card::Addon(c) => c.mut_base().status_effects.push(effect),
+            Card::BattleItem(c) => c.mut_base().status_effects.push(effect),
+            Card::Character(c) => c.mut_base().status_effects.push(effect),
+            Card::Item(c) => c.mut_base().status_effects.push(effect),
+            Card::SuperCharacter(c) => c.mut_base().status_effects.push(effect),
+            Card::Weapon(c) => c.mut_base().status_effects.push(effect)
         }
     }
 

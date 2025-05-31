@@ -6,14 +6,12 @@
 // Deck manager - 
 
 
-use super::{card::{Card}};
-
-
 pub struct DeckManager {
     item_draw_pile: CardPile,
     discard_pile: CardPile,
     round_discard_pile: CardPile,
     character_draw_pile: CardPile,
+    super_character_draw_pile: CardPile,
 }
 
 impl DeckManager {
@@ -23,18 +21,19 @@ impl DeckManager {
             discard_pile: CardPile::new(),
             round_discard_pile: CardPile::new(),
             character_draw_pile: CardPile::new(),
+            super_character_draw_pile: CardPile::new(),
         }
     }
     
-    pub fn add_item_draw_pile(&mut self, card: Card) {
-        self.item_draw_pile.add(card);
+    pub fn add_item_draw_pile(&mut self, card_id: String) {
+        self.item_draw_pile.add(card_id);
     }
 
-    pub fn add_character_draw_pile(&mut self, card: Card) {
-        self.character_draw_pile.add(card);
+    pub fn add_character_draw_pile(&mut self, card_id: String) {
+        self.character_draw_pile.add(card_id);
     }
 
-    pub fn get_item_draw_pile(&self) -> Vec<Card> {
+    pub fn get_item_draw_pile(&self) -> &Vec<String> {
         self.item_draw_pile.get_all()
     }
 
@@ -43,7 +42,7 @@ impl DeckManager {
 
 
 struct CardPile {
-    cards: Vec<Card>
+    cards: Vec<String>
 }
 
 impl CardPile {
@@ -53,12 +52,12 @@ impl CardPile {
         }
     }
 
-    fn add(&mut self, card: Card) {
-        self.cards.push(card);
+    fn add(&mut self, card_id: String) {
+        self.cards.push(card_id);
     }
 
-    fn get_all(&self) -> Vec<Card> {
-        self.cards.clone()
+    fn get_all(&self) -> &Vec<String> {
+        &self.cards
     }
 }
 

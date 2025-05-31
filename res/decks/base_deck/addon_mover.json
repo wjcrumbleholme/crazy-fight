@@ -4,25 +4,5 @@
     "card_type": "Item",
     "img_path": "addon_mover.png",
     "description": "Remove an Addon from any Character and put it on any other Character",
-    "play_time": "round",
-    "reveal_time": "none",
-    "ability": {
-        "type": "one_time",
-        "conditions": [],
-        "effects": [
-                {
-                "action": "addon_transfer",
-                "source_target": {
-                    "type": "Character",
-                    "owner": "choose",
-                    "card": "choose"
-                },
-                "destination_target": {
-                    "type": "Character",
-                    "owner": "choose",
-                    "card": "choose"
-                }
-            }
-        ]
-    }
+    "play_time": "round"
 }

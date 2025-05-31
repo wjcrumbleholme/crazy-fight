@@ -4,24 +4,5 @@
     "card_type": "Addon",
     "img_path": "booster.png",
     "description": "During battle, this Character deals 5 extra damage",
-    "play_time": "round",
-    "reveal_time": "battle",
-    "ability": {
-        "type": "passive",
-        "conditions": [
-            {"type": "is_in_battle"},
-            {"type": "is_attached"}
-        ],
-        "effects": [
-                {
-                "action": "add_damage",
-                "amount": 5,
-                "destination_target": {
-                    "type": "Character",
-                    "owner": "self",
-                    "card": "attached"
-                }
-            }
-        ]
-    }
+    "play_time": "round"
 }

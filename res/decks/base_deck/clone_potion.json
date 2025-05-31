@@ -4,20 +4,5 @@
     "card_type": "BattleItem",
     "img_path": "clone_potion.png",
     "description": "Play during battle to double the strength of a Character",
-    "play_time": "battle",
-    "reveal_time": "none",
-    "ability": {
-        "type": "one_time",
-        "conditions": [],
-        "effects": [
-                {
-                "action": "double_strength",
-                "destination_target": {
-                    "type": "Character",
-                    "owner": "self",
-                    "card": "choose"
-                }
-            }
-        ]
-    }
+    "play_time": "battle"
 }
