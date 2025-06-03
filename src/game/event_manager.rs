@@ -1,6 +1,7 @@
+use macroquad::{prelude::rand};
 use uuid::Uuid;
 
-use super::{card::CardManager, game_state::GameState, player::PlayerManager};
+use super::{card::CardManager, deck::{self, DeckManager}, game_state::GameState, player::{self, PlayerManager}};
 
 
 
@@ -12,7 +13,7 @@ pub enum Event {
 
 pub enum DrawSelector {
     Random,
-    CardId(String)
+    CardId(String),
 }
 
 pub struct CardEvent {
@@ -45,7 +46,7 @@ impl EventManager {
         }
     }
     
-    pub fn handle_event(&mut self, event: Event, player_manager: &mut PlayerManager, game_state: &GameState, card_manager: &mut CardManager) {
+    pub fn handle_event(&mut self, event: Event, player_manager: &mut PlayerManager, game_state: &GameState, card_manager: &mut CardManager, deck_manager: &mut DeckManager) {
         match event {
             Event::CardPlayed(ce) => {
 
@@ -76,6 +77,52 @@ impl EventManager {
             },
             Event::DrawCard { player_id, pile, selector } => {
                 // When card is drawn, instansiate it (give it an instance id and assign it to a player)
+                match pile.as_str() {
+                    "standard" => {
+                        match selector {
+                            DrawSelector::Random => {
+                                // Draw a random card from the standard draw pile
+                                if let Some(card_id) = deck_manager.get_random_card_and_remove_item_pile() {
+                                    if let Some(mut card_to_inst) = card_manager.get_card_from_id_clone(&card_id) {
+                                        let instance_id = Uuid::new_v4();
+                                        card_to_inst.set_instance_id(instance_id);
+                                        // Add the card to the instansitated card hashmap
+                                        card_manager.instansiate_card(&instance_id, card_to_inst);
+                                        // Add the intance card id to the players hand
+                                        if let Some(player) = player_manager.get_player_by_id_mut(&player_id) {
+                                            player.add_card_instance_id_to_hand(instance_id);
+                                        }
+                                    } 
+                                } else {
+                                    // None was returned, standard pile must be empty 
+                                }
+                                
+
+                            }
+                            _ => ()
+                        }
+                    },
+                    "character" => {
+                        match selector {
+                            DrawSelector::Random => {
+                                // Pick a random character from the character pile
+                            },
+                            DrawSelector::CardId(cid) => {
+                                // Pick a character from the character pile (people picker)
+                            },
+                            _ => ()
+                        }
+                    },
+                    "super_character" => {
+                        match selector {
+                            DrawSelector::CardId(cid) => {
+                                // Pick a super card - will have to handle super card picker later
+                            },
+                            _ => ()
+                        }
+                    }
+                    _ => ()
+                }
             },
             _ => ()
         }

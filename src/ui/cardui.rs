@@ -1,6 +1,6 @@
 use macroquad::{color::WHITE, input::{is_mouse_button_pressed, mouse_position, MouseButton}, math::vec2, texture::{draw_texture_ex, DrawTextureParams, Texture2D}};
 
-use super::{Position, Size, UIElement};
+use super::{Position, Size, UIContext, UIElement, UIMessage};
 
 pub struct CardUi {
     img: Texture2D,
@@ -26,7 +26,7 @@ impl CardUi {
 
 //Implement the trait for the Card object
 impl UIElement for CardUi {
-    fn draw(&self, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
+    fn draw(&mut self, ctx: &mut UIContext, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
         let w = self.w.caclulate(parent_w);
         let h = self.h.caclulate(parent_h);
         let x = self.x.coord(parent_x, parent_w, w);

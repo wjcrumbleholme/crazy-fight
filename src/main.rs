@@ -1,5 +1,7 @@
+use std::{cell::RefCell, rc::Rc};
+
 use macroquad::{prelude::*};
-use ui::{button::Button, cardui::CardUi, container::Container, Alignment, Position, Size, UIElement};
+use ui::{button::Button, cardui::CardUi, container::{Container, RefCellContainerWrapper}, Alignment, Position, Size, UIContext, UIElement, UIMessage};
 use game::{ GameManger};
 
 pub mod ui;
@@ -28,7 +30,7 @@ async fn main() {
         Size::Rel(0.0),
     );
 
-    let mut card_view = Container::new(
+    let mut card_view = Rc::new(RefCell::new(Container::new(
         Position::Align(Alignment::Centre), 
         Position::Align(Alignment::Centre), 
         Size::Rel(0.4), 
@@ -36,8 +38,12 @@ async fn main() {
         LIGHTGRAY,
         ui::Layout::RowCentre,
         Size::Rel(0.1)
-    );
+    )));
 
+    let mut game_manager = GameManger::new();
+    game_manager.load_deck("res/decks/base_deck");
+    let test_player = game_manager.test_create_player();
+    let mut ctx = UIContext::new();
 
     let example_btn = Button::new(
         Position::Align(Alignment::Centre), 
@@ -48,26 +54,13 @@ async fn main() {
         BLACK, 
         "Click Me!".to_string(), 
         32, 
-        || {println!("Button has been clicked!")},
+        Some(UIMessage::DrawCard(test_player)),
     );
+    
 
+    
+    root.add_child(Box::new(RefCellContainerWrapper(card_view.clone())));
 
-    let mut game_manager = GameManger::new();
-    game_manager.load_deck("res/decks/base_deck");
-    for card in game_manager.get_deck_manager().get_item_draw_pile() {
-        if let Some(card) = game_manager.get_card_manager().get_card(&card) {
-            let card_load_ui = CardUi::new(
-                Position::Align(Alignment::Centre), 
-                Position::Align(Alignment::Centre),
-                load_texture(&card.get_img_path()).await.unwrap(), 
-                || {println!("Card loaded clicked")}
-            );
-            card_view.add_child(Box::new(card_load_ui));
-        }
-        
-    }
-
-    root.add_child(Box::new(card_view));
     root.add_child(Box::new(example_btn));
 
     
@@ -75,7 +68,31 @@ async fn main() {
     loop {
         clear_background(BLACK);
 
-        root.draw(0.0, 0.0, screen_width(), screen_height());
+        root.draw(&mut ctx, 0.0, 0.0, screen_width(), screen_height());
+
+
+        for msg in ctx.message_queue.drain(..) {
+            match msg {
+                UIMessage::DrawCard(_) => {
+                    println!("Button is clicked");
+                    if let Some(cards_instantiated) = game_manager.test_draw_pile(test_player) {
+                        card_view.borrow_mut().clear_children();
+                        for card_instance_id in cards_instantiated {
+                            if let Some(card) = game_manager.get_card_manager().get_card_from_instance_id(&card_instance_id) {
+                                let card_load_ui = CardUi::new(
+                                Position::Align(Alignment::Centre), 
+                                Position::Align(Alignment::Centre),
+                                load_texture(&card.get_img_path()).await.unwrap(), 
+                                || {println!("Card loaded clicked")}
+                                );
+                                card_view.borrow_mut().add_child(Box::new(card_load_ui));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         next_frame().await
     }

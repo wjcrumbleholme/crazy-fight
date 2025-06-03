@@ -2,9 +2,10 @@ use std::{collections::HashMap, fs::{self, read_dir}};
 
 use card::{CardManager, Card};
 use deck::DeckManager;
-use event_manager::EventManager;
+use event_manager::{DrawSelector, Event, EventManager};
 use game_state::GameState;
 use player::PlayerManager;
+use uuid::Uuid;
 
 
 pub mod card;
@@ -79,6 +80,9 @@ impl GameManger {
                             //Add to character draw pile
                             self.deck_manager.add_character_draw_pile(card_id.clone());
                         },
+                        Card::SuperCharacter(c) => {
+                            self.deck_manager.add_super_character_draw_pile(card_id.clone());
+                        }
                         _ => {
                             //Add to regular draw pile
                             self.deck_manager.add_item_draw_pile(card_id.clone());
@@ -90,5 +94,40 @@ impl GameManger {
                 }
             }
         }
+    }
+
+
+    pub fn test_create_player(&mut self) -> Uuid {
+        let test_player_id = self.player_manager.create_player("test".to_owned());
+        test_player_id
+    }
+
+
+    pub fn test_draw_pile(&mut self, player_id: Uuid) -> Option<Vec<Uuid>> {
+        
+        //Add all of the current cards in the players hand to the discard pile and delete them from the card_manager
+        if let Some(player) = self.player_manager.get_player_by_id(&player_id) {
+            for instance_id in player.get_hand().to_vec() {
+                if let Some(card) = self.card_manager.get_card_from_instance_id(&instance_id) {
+                    // Add card to discard pile
+                    self.deck_manager.add_discard_pile(card.get_card_id().to_owned());
+                }
+                self.card_manager.deinstansiate_card(&instance_id);
+            }
+        } 
+
+        //Clear the players hand
+        
+        self.event_manager.handle_event(Event::DrawCard { player_id: player_id, pile: "standard".to_owned(), selector: DrawSelector::Random }, &mut self.player_manager, &self.game_state, &mut self.card_manager, &mut self.deck_manager);
+        self.event_manager.handle_event(Event::DrawCard { player_id: player_id, pile: "standard".to_owned(), selector: DrawSelector::Random }, &mut self.player_manager, &self.game_state, &mut self.card_manager, &mut self.deck_manager);
+        self.event_manager.handle_event(Event::DrawCard { player_id: player_id, pile: "standard".to_owned(), selector: DrawSelector::Random }, &mut self.player_manager, &self.game_state, &mut self.card_manager, &mut self.deck_manager);
+        self.event_manager.handle_event(Event::DrawCard { player_id: player_id, pile: "standard".to_owned(), selector: DrawSelector::Random }, &mut self.player_manager, &self.game_state, &mut self.card_manager, &mut self.deck_manager);
+        self.event_manager.handle_event(Event::DrawCard { player_id: player_id, pile: "standard".to_owned(), selector: DrawSelector::Random }, &mut self.player_manager, &self.game_state, &mut self.card_manager, &mut self.deck_manager);
+        self.event_manager.handle_event(Event::DrawCard { player_id: player_id, pile: "standard".to_owned(), selector: DrawSelector::Random }, &mut self.player_manager, &self.game_state, &mut self.card_manager, &mut self.deck_manager);
+
+        if let Some(player) = self.player_manager.get_player_by_id(&player_id) {
+            return Some(player.get_hand().to_vec())
+        } 
+        None
     }
 }

@@ -2,7 +2,7 @@
     "name": "Money",
     "id": "money",
     "card_type": "Weapon",
-    "img_path": "Weapon.png",
+    "img_path": "money.png",
     "description": "+7 to Robber",
     "play_time": "battle_start"
 }

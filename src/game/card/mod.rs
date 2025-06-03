@@ -34,8 +34,20 @@ impl CardManager {
         self.card_registry.insert(loaded_card.get_card_id().clone(), loaded_card);
     }
 
+    pub fn instansiate_card(&mut self, instance_id: &Uuid, card: Card) {
+        self.instantiated_cards.insert(*instance_id, card);
+    }
+
+    pub fn deinstansiate_card(&mut self, instance_id: &Uuid) {
+        self.instantiated_cards.remove(instance_id);
+    }
+
     pub fn get_card(&self, id: &str) -> Option<&Card> {
         self.card_registry.get(id)
+    }
+
+    pub fn get_card_from_id_clone(&self, card_id: &str) -> Option<Card> {
+        self.card_registry.get(card_id).cloned()
     }
 
     pub fn get_card_from_instance_id(&self, instance_id: &Uuid) -> Option<&Card> {
@@ -45,6 +57,7 @@ impl CardManager {
     pub fn get_card_from_instance_id_mut(&mut self, instance_id: &Uuid) -> Option<&mut Card> {
         self.instantiated_cards.get_mut(instance_id)
     }
+
 
 }
 
@@ -285,6 +298,17 @@ impl Card {
             Card::Item(c) => c.base().instance_id(),
             Card::SuperCharacter(c) => c.base().instance_id(),
             Card::Weapon(c) => c.base().instance_id(),
+        }
+    }
+
+    pub fn set_instance_id(&mut self, instance_id: Uuid) {
+        match self {
+            Card::Addon(c) => c.mut_base().instance_id = Some(instance_id),
+            Card::BattleItem(c) => c.mut_base().instance_id = Some(instance_id),
+            Card::Character(c) => c.mut_base().instance_id = Some(instance_id),
+            Card::Item(c) => c.mut_base().instance_id = Some(instance_id),
+            Card::SuperCharacter(c) => c.mut_base().instance_id = Some(instance_id),
+            Card::Weapon(c) => c.mut_base().instance_id = Some(instance_id),
         }
     }
 

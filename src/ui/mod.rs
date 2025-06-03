@@ -89,12 +89,28 @@ pub enum Layout {
 
 // Define what all UIElements need to have 
 pub trait UIElement {
-    fn draw(&self, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32);
+    fn draw(&mut self, ctx: &mut UIContext, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32);
     fn get_width(&self, parent_w: f32) -> f32;
     fn get_height(&self, parent_h: f32) -> f32;
 }
 
 
 
+
+pub struct UIContext {
+    pub message_queue: Vec<UIMessage>
+}
+
+impl UIContext {
+    pub fn new() -> Self {
+        Self { message_queue: vec![] }
+    }
+}
+
+
+#[derive(Clone)]
+pub enum UIMessage {
+    DrawCard(uuid::Uuid),
+}
 
 

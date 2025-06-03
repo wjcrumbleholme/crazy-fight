@@ -2,7 +2,7 @@
     "name": "Makeshift Apperatus",
     "id": "makeshift_apperatus",
     "card_type": "Weapon",
-    "img_path": "makeshift_apperatus",
+    "img_path": "makeshift_apperatus.png",
     "description": "+3 to Alchemist",
     "play_time": "battle_start"
 }

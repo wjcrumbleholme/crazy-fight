@@ -1,6 +1,8 @@
+use std::{cell::RefCell, rc::Rc};
+
 use macroquad::{color::{Color}, shapes::draw_rectangle};
 
-use super::{Layout, Padding, Position, Size, UIElement};
+use super::{Layout, Padding, Position, Size, UIContext, UIElement, UIMessage};
 
 
 //Basic container object
@@ -16,6 +18,7 @@ pub struct Container {
     gap: Size,
 
 }
+
 
 // Basic container object logic
 impl Container {
@@ -42,11 +45,15 @@ impl Container {
     pub fn add_padding(&mut self, padding:Padding) {
         self.padding = padding
     }
+
+    pub fn clear_children(&mut self) {
+        self.children.clear();
+    }
 }
 
 // Implement the trait for the container object
 impl UIElement for Container {
-    fn draw(&self, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
+    fn draw(&mut self, ctx: &mut UIContext, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
         // Calculate the size
         let w = self.w.caclulate(parent_w);
         let h = self.h.caclulate(parent_h);
@@ -66,8 +73,8 @@ impl UIElement for Container {
         match self.layout {
             Layout::None => {
                 // Recursively draw the child's objects
-                for child in &self.children {
-                    child.draw(content_x, content_y, content_w, content_h);
+                for child in &mut self.children {
+                    child.draw(ctx, content_x, content_y, content_w, content_h);
                 }
             },
             Layout::RowCentre => {
@@ -97,8 +104,8 @@ impl UIElement for Container {
                 let mut current_x = x + (w - total_width) / 2.0;
 
                 // Draw all of the children
-                for (child, child_w) in self.children.iter().zip(child_sizes.iter()) {
-                    child.draw(current_x, y, *child_w, h);
+                for (child, child_w) in self.children.iter_mut().zip(child_sizes.iter()) {
+                    child.draw(ctx, current_x, y, *child_w, h);
                     current_x += child_w + calc_gap;
                 }
 
@@ -130,8 +137,8 @@ impl UIElement for Container {
                 let mut current_y = y + (h - total_height) / 2.0;
 
                 // Draw all of the children
-                for (child, child_h) in self.children.iter().zip(child_sizes.iter()) {
-                    child.draw(x, current_y, w, *child_h);
+                for (child, child_h) in self.children.iter_mut().zip(child_sizes.iter()) {
+                    child.draw(ctx, x, current_y, w, *child_h);
                     current_y += child_h + calc_gap;
                 }
 
@@ -148,5 +155,21 @@ impl UIElement for Container {
     }
     fn get_height(&self, parent_h: f32) -> f32 {
         self.h.caclulate(parent_h)
+    }
+}
+
+pub struct RefCellContainerWrapper(pub Rc<RefCell<Container>>);
+
+impl UIElement for RefCellContainerWrapper {
+    fn draw(&mut self, ctx: &mut UIContext, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
+        self.0.borrow_mut().draw(ctx, parent_x, parent_y, parent_w, parent_h);
+    }
+
+    fn get_width(&self, parent_w: f32) -> f32 {
+        self.0.borrow().get_width(parent_w)
+    }
+
+    fn get_height(&self, parent_h: f32) -> f32 {
+        self.0.borrow().get_height(parent_h)
     }
 }

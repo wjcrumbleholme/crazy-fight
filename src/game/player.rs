@@ -24,6 +24,10 @@ impl Player {
     pub fn get_hand(&self) -> &Vec<Uuid> {
         &self.hand
     }
+
+    pub fn add_card_instance_id_to_hand(&mut self, card_intance_id: Uuid) {
+        self.hand.push(card_intance_id);
+    }
     
     pub fn get_id(&self) -> &Uuid {
         &self.id
@@ -43,8 +47,9 @@ impl PlayerManager {
         }
     }
 
-    pub fn create_player(&mut self, name: String) {
+    pub fn create_player(&mut self, name: String) -> Uuid{
         let id = Uuid::new_v4();
+        let id_to_ret = id.clone();
         let new_player = Player {
             id: id,
             name: name,
@@ -53,6 +58,7 @@ impl PlayerManager {
             status_effects: vec![]
         };
         self.players.insert(id, new_player);
+        id_to_ret
     }
 
     pub fn get_player_by_id(&self, id: &Uuid) -> Option<&Player> {

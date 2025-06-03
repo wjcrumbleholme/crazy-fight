@@ -1,6 +1,6 @@
 use macroquad::{color::Color, text::{draw_text, measure_text}};
 
-use super::{Position, Size, UIElement};
+use super::{Position, Size, UIContext, UIElement, UIMessage};
 
 // Label
 pub struct Label {
@@ -33,7 +33,7 @@ impl Label {
 
 //Implement the trait for the Label object
 impl UIElement for Label {
-    fn draw(&self, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
+    fn draw(&mut self, ctx: &mut UIContext, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
         
         let x = self.x.coord(parent_x, parent_w, self.w.caclulate(parent_w));
         let y = self.y.coord(parent_y, parent_h, self.h.caclulate(parent_h));
