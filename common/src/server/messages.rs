@@ -14,12 +14,15 @@ pub enum ClientToMatchmakingServer {
     GetRooms, 
 
     /// Create a new public room
-    CreateRoom {player_id: Uuid, player_name: String, is_private: bool, max_players: usize}, 
+    CreateRoom {room_name: String, is_private: bool, max_players: usize}, 
 
-    /// Connect to a room
-    JoinRoom {room_id: Uuid, player_id: Uuid, player_name: String},
+    /// Get a rooms info
+    GetRoomInfo {room_id: Uuid},
 
+    /// Let the matchmaking server know that you have successfully joined a room
+    JoinedRoom {room_id: Uuid, player_id: Uuid},
 
+    Disconnect
 }
 
 #[derive(Serialize, Deserialize)]
@@ -28,10 +31,10 @@ pub enum MatchmakingServerToClient {
     RoomDirectory(HashMap<Uuid, RoomInfo>),
 
     /// Let the client know that a room has been created 
-    RoomCreated {room_code: String},
+    RoomCreated {room_id: Uuid},
 
-    /// Let the client know that the room has been joined and where to go now.
-    RoomJoined {server_address: String, room_code: String},
+    /// Give the client where to go next
+    RoomInfo {room_id: Uuid, server_address: String},
 
     /// If something happens - room full, cant create room, etc
     Error(String)

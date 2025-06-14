@@ -113,7 +113,10 @@ impl UIContext {
 #[derive(Clone)]
 pub enum UIMessage {
     DrawCard(uuid::Uuid),
-    SwitchView(MenuState)
+    SwitchView(MenuState),
+    TryConnectToMatchmaking,
+    CreateRoom,
+    JoinRoom(uuid::Uuid),
 }
 
 

@@ -10,7 +10,7 @@ pub struct Label {
     w: Size,
     h: Size,
     font_size: u16,
-    color: Color
+    txt_color: Color
 }
 
 // Label logic
@@ -26,7 +26,7 @@ impl Label {
             w: Size::Abs(w),
             h: Size::Abs(h),
             font_size: font_size, 
-            color: color,
+            txt_color: color,
         }
     }
 }
@@ -38,7 +38,7 @@ impl UIElement for Label {
         let x = self.x.coord(parent_x, parent_w, self.w.caclulate(parent_w));
         let y = self.y.coord(parent_y, parent_h, self.h.caclulate(parent_h));
 
-        draw_text(&self.text, x, y + self.h.caclulate(parent_h), self.font_size as f32, self.color);
+        draw_text(&self.text, x, y + self.h.caclulate(parent_h), self.font_size as f32, self.txt_color);
     }
 
     fn get_width(&self, parent_w: f32) -> f32 {
