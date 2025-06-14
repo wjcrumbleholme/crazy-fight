@@ -1,18 +1,15 @@
 use std::{collections::HashMap, fs::{self, read_dir}};
 
-use card::{CardManager, Card};
-use deck::DeckManager;
-use event_manager::{DrawSelector, Event, EventManager};
-use game_state::GameState;
-use player::PlayerManager;
+use game::card::{CardManager, Card};
+use game::deck::DeckManager;
+use game::event_manager::{DrawSelector, Event, EventManager};
+use game::game_state::GameState;
+use game::player::PlayerManager;
 use uuid::Uuid;
 
 
-pub mod card;
-pub mod player;
-pub mod deck;
-pub mod game_state;
-pub mod event_manager;
+pub mod server;
+pub mod game;
 
 
 

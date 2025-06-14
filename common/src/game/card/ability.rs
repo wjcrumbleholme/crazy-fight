@@ -1,7 +1,7 @@
 use serde::Deserialize;
 use uuid::Uuid;
 
-use crate::game::player::{Player, PlayerManager};
+use super::super::player::{Player, PlayerManager};
 
 use super::{condition::Condition, effect::Effect, CardManager};
 

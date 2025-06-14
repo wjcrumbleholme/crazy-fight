@@ -1,3 +1,5 @@
+use crate::menu::{MenuState};
+
 
 pub mod cardui;
 pub mod container;
@@ -111,6 +113,7 @@ impl UIContext {
 #[derive(Clone)]
 pub enum UIMessage {
     DrawCard(uuid::Uuid),
+    SwitchView(MenuState)
 }
 
 

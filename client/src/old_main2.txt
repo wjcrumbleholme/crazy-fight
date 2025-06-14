@@ -1,0 +1,48 @@
+ // Connect to the matchmaking server when using wasm
+    #[cfg(target_arch = "wasm32")]
+    let client = ws::connect("ws://localhost:9001");
+
+    // Connect to the matchmaking server natively
+    #[cfg(not(target_arch = "wasm32"))]
+    let client = ws::connect("ws://localhost:9001");
+    
+
+    loop {
+        clear_background(LIGHTGRAY);
+        draw_text("Press SPACE to get rooms", 20.0, 40.0, 30.0, BLACK);
+
+        // Handle received messages
+        #[cfg(target_arch = "wasm32")]
+        if let Some(msg) = client.try_recv() {
+            let msg = match msg {
+                WsMessage::Text(text) => text,
+                _ => "".to_string(),
+            };
+            process_matchmaking_server_message(msg).await
+        }
+
+        #[cfg(not(target_arch = "wasm32"))]
+        while let Ok(msg) = client.rx.try_recv() {
+            let msg = match msg {
+                WsMessage::Text(text) => text,
+                _ => "".to_string(),
+            };
+            process_matchmaking_server_message(msg).await
+        }
+
+        // Get rooms
+        if is_key_pressed(KeyCode::Space) {
+            let msg = ClientToMatchmakingServer::GetRooms;
+            let json = serde_json::to_string(&msg).unwrap();
+
+            #[cfg(target_arch = "wasm32")]
+            client.send(&json);
+
+            #[cfg(not(target_arch = "wasm32"))]
+            let _ = client.tx.send(WsMessage::Text(json));
+
+            println!("sent request to get rooms")
+        }
+
+        next_frame().await;
+    }

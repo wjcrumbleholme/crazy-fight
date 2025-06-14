@@ -36,3 +36,10 @@
 
 ## Condition.is_met
 - Will take in a condition, the player_id and the instance_id and a imut ref to CardManager, PlayerManager and GameState
+
+
+# Menu structure
+- Room browser button
+    - Room browser submenu
+- Direct connect to room button
+    - Direct connect submenu

@@ -1,7 +1,7 @@
 use serde::Deserialize;
 use uuid::Uuid;
 
-use crate::game::player::PlayerManager;
+use super::super::player::PlayerManager;
 
 use super::{condition::Condition, duration::Duration, status::Status, target::{Target, TargetId}, CardManager};
 
