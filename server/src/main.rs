@@ -4,6 +4,7 @@ pub mod common;
 pub mod central;
 pub mod local;
 pub mod matchmaking;
+pub mod messages;
 
 #[tokio::main]
 async fn main() {
@@ -12,7 +13,10 @@ async fn main() {
 
     match server_type.as_str() {
         "local" => println!("Starting local server"),
-        "central" => println!("Starting central server"),
+        "central" => {
+            println!("Starting central server");
+            central::run().await
+        },
         "matchmaking" => {
             println!("Starting matchmaking server");
             matchmaking::run().await

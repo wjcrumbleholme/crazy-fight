@@ -19,9 +19,6 @@ pub enum ClientToMatchmakingServer {
     /// Get a rooms info
     GetRoomInfo {room_id: Uuid},
 
-    /// Let the matchmaking server know that you have successfully joined a room
-    JoinedRoom {room_id: Uuid, player_id: Uuid},
-
     Disconnect
 }
 
@@ -34,7 +31,7 @@ pub enum MatchmakingServerToClient {
     RoomCreated {room_id: Uuid},
 
     /// Give the client where to go next
-    RoomInfo {room_id: Uuid, server_address: String},
+    RoomInfo {server_address: String},
 
     /// If something happens - room full, cant create room, etc
     Error(String)

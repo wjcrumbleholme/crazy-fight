@@ -11,7 +11,7 @@ pub enum MenuState {
     RoomBrowser,
     DirectConnect,
     InGame,
-    MatchmakingConnectionError,
+    ConnectionError(String),
     InRoom,
 }
 
@@ -216,12 +216,12 @@ impl DirectConnect {
     }
 }
 
-pub struct MatchmakingConnectionError {
+pub struct ConnectionError {
     pub container: Rc<RefCell<Container>>,
 }
 
-impl MatchmakingConnectionError {
-    pub fn new() -> Self {
+impl ConnectionError {
+    pub fn new(error: String) -> Self {
         let mut root = Container::new(
             Position::Align(Alignment::LeTop), 
             Position::Align(Alignment::LeTop), 
@@ -232,17 +232,24 @@ impl MatchmakingConnectionError {
             Size::Rel(0.1),
         );
 
-        let error_btn = Button::new(
-            Position::Align(Alignment::Centre), 
-            Position::Align(Alignment::Centre), 
-            Size::Abs(400.0), 
-            Size::Abs(100.0), 
-            RED, 
-            BLACK, 
-            "Retry Connection".to_string(), 
-            32, 
-            Some(UIMessage::TryConnectToMatchmaking),
-        );
+        // let error_btn = Button::new(
+        //     Position::Align(Alignment::Centre), 
+        //     Position::Align(Alignment::Centre), 
+        //     Size::Abs(400.0), 
+        //     Size::Abs(100.0), 
+        //     RED, 
+        //     BLACK, 
+        //     "Retry Connection".to_string(), 
+        //     32, 
+        //     Some(UIMessage::TryConnectToMatchmaking),
+        // );
+        let error_msg = Label::new(
+                Position::Align(Alignment::Centre),
+                Position::Align(Alignment::Centre),
+                32, 
+                error, 
+                BLACK
+            );
 
         let back_btn = Button::new(
             Position::Align(Alignment::LeTop), 
@@ -259,7 +266,8 @@ impl MatchmakingConnectionError {
         
 
         root.add_child(Box::new(back_btn));
-        root.add_child(Box::new(error_btn));
+        root.add_child(Box::new(error_msg));
+        // root.add_child(Box::new(error_btn));
 
         Self {
             container: Rc::new(RefCell::new(root))

@@ -1,12 +1,12 @@
 
-use std::collections::HashMap;
+use std::{clone, collections::HashMap};
 
-use common::server::{messages::{ClientToMatchmakingServer, MatchmakingServerToClient}, room_info::RoomInfo};
+use common::server::{messages::{ClientToMatchmakingServer, ClientToServer, MatchmakingServerToClient}, room_info::RoomInfo};
 use macroquad::prelude::*;
 use uuid::Uuid;
 mod net;
 mod ui;
-use crate::{menu::{DirectConnect, InRoom, MainMenu, MatchmakingConnectionError, MenuState, RoomBrowser}, net::{platform, ConnectionResult, WebSocketClient}, ui::{container::Container, Alignment, Position, Size, UIContext, UIElement, UIMessage}};
+use crate::{menu::{ConnectionError, DirectConnect, InRoom, MainMenu, MenuState, RoomBrowser}, net::{platform, ConnectionResult, WebSocketClient}, ui::{container::Container, Alignment, Position, Size, UIContext, UIElement, UIMessage}};
 use net::WsMessage;
 
 mod menu;
@@ -15,9 +15,11 @@ mod menu;
 pub struct AppState {
     pub menu_state: MenuState,
     pub matchmaking_client: Option<Box<dyn WebSocketClient>>,
+    pub game_server_client: Option<Box<dyn WebSocketClient>>,
     pub rooms: HashMap<Uuid, RoomInfo>,
     pub error_message: Option<String>,
     pub player_id: Uuid,
+    pub player_name: String,
 }
 
 #[macroquad::main("Client")]
@@ -25,9 +27,11 @@ async fn main() {
     let mut app_state = AppState {
         menu_state: MenuState::MainMenu,
         matchmaking_client: None,
+        game_server_client: None,
         error_message: None,
         rooms: HashMap::new(),
         player_id: Uuid::new_v4(),
+        player_name: "Test".to_string(),
     };
 
     let mut ctx = UIContext::new();
@@ -35,7 +39,6 @@ async fn main() {
     let mut main_menu = MainMenu::new();
     let mut room_browser = RoomBrowser::new();
     let mut direct_connect = DirectConnect::new();
-    let mut matchmaking_connection_error = MatchmakingConnectionError::new();
     let mut in_room = InRoom::new();
 
     loop {
@@ -49,6 +52,10 @@ async fn main() {
                 if let Some(mm_client) = app_state.matchmaking_client.as_ref() {
                     mm_client.send_text(&serde_json::to_string(&ClientToMatchmakingServer::Disconnect).unwrap());
                 }
+                 // Also try and disconnect the client from any game server
+                if let Some(gs_client) = app_state.game_server_client.as_ref() {
+                    gs_client.send_text(&serde_json::to_string(&ClientToServer::Disconnect).unwrap());
+                }
             },
             MenuState::RoomBrowser => {
                 room_browser.container.borrow_mut().draw(&mut ctx, 0.0, 0.0, screen_width(), screen_height());
@@ -59,8 +66,9 @@ async fn main() {
             MenuState::InGame => {
                 // Placeholder for in-game logic
             },
-            MenuState::MatchmakingConnectionError => {
-                matchmaking_connection_error.container.borrow_mut().draw(&mut ctx, 0.0, 0.0, screen_width(), screen_height());
+            MenuState::ConnectionError(ref error) => {
+                let connection_error = ConnectionError::new(error.clone());
+                connection_error.container.borrow_mut().draw(&mut ctx, 0.0, 0.0, screen_width(), screen_height());
             },
             MenuState::InRoom => {
                 in_room.container.borrow_mut().draw(&mut ctx, 0.0, 0.0, screen_width(), screen_height());
@@ -83,14 +91,15 @@ async fn main() {
                             app_state.menu_state = MenuState::RoomBrowser;
                         },
                         ConnectionResult::Failure(err) => {
-                            app_state.error_message = Some(err);
-                            app_state.menu_state = MenuState::MatchmakingConnectionError;
+                            app_state.error_message = Some(err.clone());
+                            app_state.menu_state = MenuState::ConnectionError(err);
                         }
                     }
                 },
                 UIMessage::CreateRoom => {
-                    if let Some(client) = app_state.matchmaking_client.as_ref() {
+                    if let Some(client) = &app_state.matchmaking_client {
                         client.send_text(&serde_json::to_string(&ClientToMatchmakingServer::CreateRoom {room_name: "test".to_string(), is_private: false, max_players: 8 }).unwrap());
+                        println!("send request to create the room")
                     }
                 },
                 UIMessage::JoinRoom(room_id) => {
@@ -145,20 +154,32 @@ async fn process_matchmaking_server_message(msg: &str, app_state: &mut AppState)
         Ok(MatchmakingServerToClient::RoomCreated { room_id }) => {
             //Room has been created, now get the info and join it
             if let Some(client) = &app_state.matchmaking_client { 
+                println!("Getting room info");
                 client.send_text(&serde_json::to_string(&ClientToMatchmakingServer::GetRoomInfo { room_id: room_id }).unwrap());
             }
         },
-        Ok(MatchmakingServerToClient::RoomInfo { room_id, server_address }) => {
-            //Room info recieved, now join the room - in the future we will actually join it but for now, just pretend
-            if let Some(client) = &app_state.matchmaking_client { 
-                client.send_text(&serde_json::to_string(&ClientToMatchmakingServer::JoinedRoom { room_id: room_id, player_id: app_state.player_id.clone() }).unwrap());
+        Ok(MatchmakingServerToClient::RoomInfo {server_address }) => {
+            //Room info recieved, now try join the room 
+            println!("Room info recieved - trying to connect to: {}", server_address);
+            match platform::connect(&server_address).await {
+                ConnectionResult::Success(client) => {
+                    // Connected to the game server
+                    println!("Connected to game server");
+                    client.send_text(&serde_json::to_string(&ClientToServer::RegisterPlayer { player_name: app_state.player_name.clone(), player_id: app_state.player_id.clone() }).unwrap());
+                    app_state.game_server_client = Some(client);
+                    app_state.menu_state = MenuState::InRoom
+                },
+                ConnectionResult::Failure(err) => {
+                    println!("Cannot connect to the game server");
+                    app_state.error_message = Some(err.clone());
+                    app_state.menu_state = MenuState::ConnectionError(err);
+                }
             }
-            app_state.menu_state = MenuState::InRoom
-
+            
         }
         Ok(MatchmakingServerToClient::Error(err)) => {
             app_state.error_message = Some(format!("Server error: {}", err));
-            app_state.menu_state = MenuState::MatchmakingConnectionError;
+            app_state.menu_state = MenuState::ConnectionError(format!("Server error: {}", err));
         }
         _ => {}
     }

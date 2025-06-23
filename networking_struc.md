@@ -33,3 +33,9 @@
     - When client chooses a room to connect to, close the websocket to the matchmaking server and open a websocket to the game server
 - If joining from a code, connect the client to the matchmaking server, look for a room with that code then if found disconect and connect to the relavent game server
 - If direct connecting to a local server - just connect to server (open websocket)
+
+
+
+- When client request create room to mm, mm then sends a request to gs to create a room that responds with a success and the ws url (different ports)
+- Then client request to join the gs room - send data to the mm about this.
+- When a room is empty - destroy it, free up the port and notify the mm
