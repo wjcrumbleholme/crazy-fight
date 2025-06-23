@@ -98,15 +98,22 @@ async fn main() {
                 },
                 UIMessage::CreateRoom => {
                     if let Some(client) = &app_state.matchmaking_client {
-                        client.send_text(&serde_json::to_string(&ClientToMatchmakingServer::CreateRoom {room_name: "test".to_string(), is_private: false, max_players: 8 }).unwrap());
-                        println!("send request to create the room")
+                        let mut room_name = room_browser.room_name_text_box.borrow().get_text();
+                        
+                        if room_name.trim().is_empty() {
+                            room_name = "Room with no name".to_string(); // or generate a random one
+                        }
+
+                        let max_players = room_browser.max_player_slider.borrow().get_value() as usize;
+
+                        client.send_text(&serde_json::to_string(&ClientToMatchmakingServer::CreateRoom {room_name, is_private: room_browser.private_checkbox.borrow().is_checked(), max_players}).unwrap());
                     }
                 },
                 UIMessage::JoinRoom(room_id) => {
                     if let Some(client) = &app_state.matchmaking_client { 
                         client.send_text(&serde_json::to_string(&ClientToMatchmakingServer::GetRoomInfo { room_id: room_id }).unwrap());
                     }
-                }
+                },
             }
         }
 

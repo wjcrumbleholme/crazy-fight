@@ -1,6 +1,6 @@
 use macroquad::{color::Color, text::{draw_text, measure_text}};
 
-use super::{Position, Size, UIContext, UIElement, UIMessage};
+use super::{Position, Size, UIContext, UIElement};
 
 // Label
 pub struct Label {
