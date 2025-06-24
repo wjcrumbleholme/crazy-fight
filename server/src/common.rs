@@ -42,7 +42,6 @@ pub async fn handle_player_connection(stream: TcpStream, room: Arc<RwLock<Room>>
     // Handles the players connection to a game server
     let ws_stream = accept_async(stream).await.expect("WebSocket accept error");
     let (mut write, mut read) = ws_stream.split();
-    println!("Player connected");
 
     let mut local_player_id: Option<Uuid> = None;
 
@@ -89,6 +88,7 @@ pub async fn handle_player_connection(stream: TcpStream, room: Arc<RwLock<Room>>
                             let info = GSToMM::ClientJoinedRoom { room_id: room.room_id };
                             let _ = sender.send(info);
                         }
+                        println!("Player: {} connected", player_name);
 
                     },
                     ClientToServer::Disconnect => {

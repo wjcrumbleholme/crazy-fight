@@ -6,10 +6,12 @@ use macroquad::prelude::*;
 use uuid::Uuid;
 mod net;
 mod ui;
-use crate::{menu::{ConnectionError, DirectConnect, InRoom, MainMenu, MenuState, RoomBrowser}, net::{platform, ConnectionResult, WebSocketClient}, ui::{container::Container, Alignment, Position, Size, UIContext, UIElement, UIMessage}};
+
 use net::WsMessage;
 
-mod menu;
+use crate::{net::{platform, ConnectionResult, WebSocketClient}, ui::{UIContext, UIElement, UIMessage}, views::{connection_error::ConnectionError, direct_connect::DirectConnect, in_room::InRoom, main_menu::MainMenu, room_browser::RoomBrowser, MenuState}};
+
+mod views;
 
 
 pub struct AppState {
@@ -31,7 +33,7 @@ async fn main() {
         error_message: None,
         rooms: HashMap::new(),
         player_id: Uuid::new_v4(),
-        player_name: "Test".to_string(),
+        player_name: "NO NAME".to_string(),
     };
 
     let mut ctx = UIContext::new();
@@ -40,6 +42,7 @@ async fn main() {
     let mut room_browser = RoomBrowser::new();
     let mut direct_connect = DirectConnect::new();
     let mut in_room = InRoom::new();
+
 
     loop {
         clear_background(BLACK);
@@ -98,15 +101,21 @@ async fn main() {
                 },
                 UIMessage::CreateRoom => {
                     if let Some(client) = &app_state.matchmaking_client {
-                        let mut room_name = room_browser.room_name_text_box.borrow().get_text();
-                        
-                        if room_name.trim().is_empty() {
-                            room_name = "Room with no name".to_string(); // or generate a random one
-                        }
 
-                        let max_players = room_browser.max_player_slider.borrow().get_value() as usize;
+                        let room_name = {
+                            let name = room_browser.room_name_text_box.borrow().get_text();
+                            if name.trim().is_empty() {
+                                "Room with no name".to_string()
+                            } else {
+                                name
+                            }
+                        };
 
-                        client.send_text(&serde_json::to_string(&ClientToMatchmakingServer::CreateRoom {room_name, is_private: room_browser.private_checkbox.borrow().is_checked(), max_players}).unwrap());
+                        let max_players = { room_browser.max_player_slider.borrow().get_value() as usize };
+
+                        let is_private = {room_browser.private_checkbox.borrow().is_checked()};
+
+                        client.send_text(&serde_json::to_string(&ClientToMatchmakingServer::CreateRoom {room_name, is_private , max_players}).unwrap());
                     }
                 },
                 UIMessage::JoinRoom(room_id) => {
@@ -119,35 +128,44 @@ async fn main() {
 
         // Handle incoming messages
         // Extract messages first to avoid borrowing app_state immutably and mutably at the same time
-        let mut messages = Vec::new();
-        let connection_failed;
+        let mut mm_messages: Vec<String> = Vec::new();
+
         if let Some(client) = &app_state.matchmaking_client {
             while let Some(WsMessage::Text(text)) = client.try_recv() {
-                messages.push(text);
+                mm_messages.push(text);
             }
-            connection_failed = client.connection_failed();
-        } else {
-            connection_failed = false;
         }
 
-        for text in messages {
-            process_matchmaking_server_message(&text, &mut app_state).await;
+        for text in mm_messages {
+            process_matchmaking_server_message(&text, &mut app_state, &room_browser).await;
             let rooms_vec: Vec<RoomInfo> = app_state.rooms.values().cloned().collect();
             room_browser.update_rooms(&rooms_vec);
         }
 
-        // if connection_failed {
-        //     app_state.error_message = Some("Could not connect to matchmaking server.".to_string());
-        //     app_state.menu_state = MenuState::MatchmakingConnectionError;
-        //     app_state.matchmaking_client = None;
-        // }
+        let mut gs_messages: Vec<String> = Vec::new();
+
+        if let Some(client) = &app_state.game_server_client {
+            while let Some(WsMessage::Text(text)) = client.try_recv() {
+                gs_messages.push(text)
+            }
+        }
+
+        for text in gs_messages {
+            process_game_server_message(&text, &mut app_state, &in_room).await;
+        }
 
         next_frame().await;
     }
 }
 
 
-async fn process_matchmaking_server_message(msg: &str, app_state: &mut AppState) {
+async fn process_game_server_message(msg: &str, app_state: &mut AppState, in_room: &InRoom) {
+
+}
+
+
+
+async fn process_matchmaking_server_message(msg: &str, app_state: &mut AppState, room_browser: &RoomBrowser) {
     match serde_json::from_str::<MatchmakingServerToClient>(msg) {
         Ok(MatchmakingServerToClient::RoomDirectory(room_dir)) => {
             #[cfg(not(target_arch = "wasm32"))]
@@ -172,7 +190,19 @@ async fn process_matchmaking_server_message(msg: &str, app_state: &mut AppState)
                 ConnectionResult::Success(client) => {
                     // Connected to the game server
                     println!("Connected to game server");
-                    client.send_text(&serde_json::to_string(&ClientToServer::RegisterPlayer { player_name: app_state.player_name.clone(), player_id: app_state.player_id.clone() }).unwrap());
+                    //Get the players name
+                    let player_name = {
+                            let name = room_browser.player_name_text_box.borrow().get_text();
+                            if name.trim().is_empty() {
+                                "NO NAME".to_string()
+                            } else {
+                                name
+                            }
+                        };
+                    app_state.player_name = player_name.clone();
+
+
+                    client.send_text(&serde_json::to_string(&ClientToServer::RegisterPlayer { player_name, player_id: app_state.player_id.clone() }).unwrap());
                     app_state.game_server_client = Some(client);
                     app_state.menu_state = MenuState::InRoom
                 },

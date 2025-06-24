@@ -1,8 +1,7 @@
 use std::{cell::RefCell, rc::Rc};
 
-use macroquad::{color::{Color}, shapes::draw_rectangle};
+use macroquad::{color::{Color, RED}, shapes::{draw_rectangle, draw_rectangle_lines}};
 
-use crate::ui::Margin;
 
 use super::{Layout, Padding, Position, Size, UIContext, UIElement, UIMessage};
 
@@ -18,8 +17,6 @@ pub struct Container {
     padding: Padding,
     layout: Layout,
     gap: Size,
-    margin: Margin,
-
 }
 
 
@@ -36,7 +33,6 @@ impl Container {
             padding: Padding::zero(),
             layout: layout,
             gap: gap,
-            margin: Margin::zero()
         }
     }
 
@@ -54,14 +50,6 @@ impl Container {
         self.children.clear();
     }
     
-    pub fn with_margin(mut self, margin: Margin) -> Self {
-        self.margin = margin;
-        self
-    }
-
-    fn get_margin(&self) -> Margin {
-        self.margin
-    }
 }
 
 // Implement the trait for the container object
@@ -80,44 +68,32 @@ impl UIElement for Container {
         let content_h = h - self.padding.left - self.padding.right;
 
         draw_rectangle(x, y, w, h, self.color);
-
-
+        // draw_rectangle_lines(x, y, w, h, 2.0, RED);
 
         match self.layout {
             Layout::None => {
                 // Recursively draw the child's objects
                 for child in &mut self.children {
-                    let margin = child.get_margin();
-
-                    let x = content_x + margin.left;
-                    let y = content_y + margin.top;
-                    let w = content_w - margin.left - margin.right;
-                    let h = content_h - margin.top - margin.bottom;
-
-                    child.draw(ctx, x, y, w, h);
+                    child.draw(ctx, content_x, content_y, content_w, content_h);
                 }
             },
             Layout::RowCentre => {
                 // Get the width of all of the children
                 let mut total_width = 0.0;
                 let mut child_sizes = vec![];
-                let mut margins = vec![];
-
 
                 // Loop over all children and add their width
                 for child in &self.children {
-                    let child_width = child.get_width(w);
-                    let margin = child.get_margin();
-                    total_width += child_width + margin.left + margin.right;
+                    let child_width = child.get_width(content_w);
+                    total_width += child_width;
                     child_sizes.push(child_width);
-                    margins.push(margin);
                 }
 
                 // Calculate the gap size 
                 let calc_gap = match self.gap {
                     Size::Abs(px) => px,
                     Size::Rel(rel) => {
-                        w * rel
+                        content_w * rel
                     }
                 };
 
@@ -125,15 +101,12 @@ impl UIElement for Container {
                 total_width += calc_gap * (self.children.len().saturating_sub(1)) as f32;
 
                 // Find starting point
-                let mut current_x = x + (w - total_width) / 2.0;
+                let mut current_x = content_x + (content_w - total_width) / 2.0;
 
                 // Draw all of the children
-                for ((child, child_w), margin) in self.children.iter_mut().zip(child_sizes.iter()).zip(margins.iter()) {
-                    current_x += margin.left;
-
-                    child.draw(ctx, current_x, content_y + margin.top, *child_w, content_h - margin.top - margin.bottom);
-
-                    current_x += *child_w + margin.right + calc_gap;
+                for (child, child_w) in self.children.iter_mut().zip(child_sizes.iter()) {
+                    child.draw(ctx, current_x, content_y, *child_w, content_h);
+                    current_x += child_w + calc_gap;
                 }
 
             },
@@ -141,22 +114,19 @@ impl UIElement for Container {
                 // Get the height of all of the children
                 let mut total_height = 0.0;
                 let mut child_sizes = vec![];
-                let mut margins = vec![];
 
                 // Loop over all children and add their width
                 for child in &self.children {
-                    let child_height = child.get_height(h);
-                    let margin = child.get_margin();
-                    total_height += child_height + margin.top + margin.bottom;
+                    let child_height = child.get_height(content_h);
+                    total_height += child_height;
                     child_sizes.push(child_height);
-                    margins.push(margin);
                 }
 
                 // Calculate the gap size 
                 let calc_gap = match self.gap {
                     Size::Abs(px) => px,
                     Size::Rel(rel) => {
-                        h * rel
+                        content_h * rel
                     }
                 };
 
@@ -164,17 +134,13 @@ impl UIElement for Container {
                 total_height += calc_gap * (self.children.len().saturating_sub(1)) as f32;
 
                 // Find starting point
-                let mut current_y = y + (h - total_height) / 2.0;
+                let mut current_y = content_y + (content_h - total_height) / 2.0;
 
                 // Draw all of the children
-                for ((child, child_h), margin) in self.children.iter_mut().zip(child_sizes.iter()).zip(margins.iter()) {
-                    current_y += margin.top;
-
-                    child.draw(ctx, content_x + margin.left, current_y, content_w - margin.left - margin.right, *child_h);
-
-                    current_y += *child_h + margin.bottom + calc_gap;
+                for (child, child_h) in self.children.iter_mut().zip(child_sizes.iter()) {
+                    child.draw(ctx, content_x, current_y, content_w, *child_h);
+                    current_y += child_h + calc_gap;
                 }
-
             },
         }
 

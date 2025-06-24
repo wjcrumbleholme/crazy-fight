@@ -1,4 +1,4 @@
-use crate::menu::{MenuState};
+use crate::views::{MenuState};
 
 
 pub mod cardui;
@@ -85,29 +85,6 @@ impl Size {
     }
 }
 
-#[derive(Clone, Copy, Default)]
-pub struct Margin {
-    pub top: f32,
-    pub bottom: f32,
-    pub left: f32,
-    pub right: f32,
-}
-
-impl Margin {
-    pub fn zero() -> Self {
-        Self { top: 0.0, bottom: 0.0, left: 0.0, right: 0.0 }
-    }
-
-    pub fn uniform(val: f32) -> Self {
-        Self { top: val, bottom: val, left: val, right: val }
-    }
-
-    pub fn new(top: f32, bottom: f32, left: f32, right: f32) -> Self {
-        Self { top, bottom, left, right }
-    }
-}
-
-
 
 // Layout - similar to flex
 pub enum Layout {
@@ -121,10 +98,6 @@ pub trait UIElement {
     fn draw(&mut self, ctx: &mut UIContext, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32);
     fn get_width(&self, parent_w: f32) -> f32;
     fn get_height(&self, parent_h: f32) -> f32;
-
-    fn get_margin(&self) -> Margin {
-        Margin::zero()
-    }
 }
 
 

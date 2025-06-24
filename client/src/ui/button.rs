@@ -1,6 +1,6 @@
 use macroquad::{color::Color, input::{is_mouse_button_pressed, mouse_position, MouseButton}, shapes::draw_rectangle};
 
-use crate::ui::Margin;
+use crate::ui::Padding;
 
 use super::{label::Label, Alignment, Position, Size, UIContext, UIElement, UIMessage};
 // Button
@@ -12,7 +12,6 @@ pub struct Button {
     h: Size, 
     bg_color: Color,
     on_click: Option<UIMessage>,
-    margin: Margin,
 }
 
 impl Button {
@@ -32,27 +31,18 @@ impl Button {
             h: h, 
             bg_color: bg_color, 
             on_click: on_click,
-            margin: Margin::zero() 
         }
     }
 
-    pub fn with_margin(mut self, margin: Margin) -> Self {
-        self.margin = margin;
-        self
-    }
-
-    fn get_margin(&self) -> Margin {
-        self.margin
-    }
 }
 
 //Implement the trait for the Button object
 impl UIElement for Button {
     fn draw(&mut self, ctx: &mut UIContext, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
-        let w = self.w.caclulate(parent_w) + self.margin.left + self.margin.right;
-        let h = self.h.caclulate(parent_h) + self.margin.top + self.margin.bottom;
-        let x = self.x.coord(parent_x, parent_w, w) - self.margin.left - self.margin.right;
-        let y = self.y.coord(parent_y, parent_h, h) - self.margin.top - self.margin.bottom;
+        let w = self.w.caclulate(parent_w);
+        let h = self.h.caclulate(parent_h);
+        let x = self.x.coord(parent_x, parent_w, w);
+        let y = self.y.coord(parent_y, parent_h, h);
 
         // Check if clicked
         if is_mouse_button_pressed(MouseButton::Left) {

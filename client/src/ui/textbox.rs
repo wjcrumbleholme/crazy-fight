@@ -1,5 +1,5 @@
 use macroquad::prelude::*;
-use std::{cell::RefCell, rc::Rc, time::Instant};
+use std::{cell::RefCell, rc::Rc};
 
 use crate::ui::{Position, Size, UIContext, UIElement};
 
@@ -7,7 +7,7 @@ pub struct TextBox {
     text: String,
     is_focused: bool,
     cursor_visible: bool,
-    last_cursor_blink: Instant,
+    last_cursor_blink: f64,
     x: Position,
     y: Position,
     w: Size,
@@ -24,7 +24,7 @@ impl TextBox {
             text: String::new(),
             is_focused: false,
             cursor_visible: true,
-            last_cursor_blink: Instant::now(),
+            last_cursor_blink: macroquad::time::get_time(),
             x,
             y,
             w,
@@ -65,9 +65,9 @@ impl UIElement for TextBox {
 
         // Cursor blinking
         if self.is_focused {
-            if self.last_cursor_blink.elapsed().as_secs_f32() > 0.5 {
+            if macroquad::time::get_time() - self.last_cursor_blink > 0.5 {
                 self.cursor_visible = !self.cursor_visible;
-                self.last_cursor_blink = Instant::now();
+                self.last_cursor_blink = macroquad::time::get_time();
             }
 
             if self.cursor_visible {
@@ -84,11 +84,13 @@ impl UIElement for TextBox {
 
             // Handle text input
             if let Some(c) = get_char_pressed() {
-                if c == '\u{8}' {
-                    self.text.pop(); // backspace
-                } else if !c.is_control() {
+                if !c.is_control() {
                     self.text.push(c);
                 }
+            }
+
+            if is_key_pressed(KeyCode::Backspace) {
+                self.text.pop(); // backspace
             }
         }
     }
@@ -106,7 +108,10 @@ pub struct TextBoxWrapper(pub Rc<RefCell<crate::ui::textbox::TextBox>>);
 
 impl UIElement for TextBoxWrapper {
     fn draw(&mut self, ctx: &mut UIContext, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
-        self.0.borrow_mut().draw(ctx, parent_x, parent_y, parent_w, parent_h);
+        {
+            let mut textbox = self.0.borrow_mut();
+            textbox.draw(ctx, parent_x, parent_y, parent_w, parent_h);
+        }
     }
 
     fn get_width(&self, parent_w: f32) -> f32 {

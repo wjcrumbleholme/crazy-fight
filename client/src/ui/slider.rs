@@ -147,7 +147,10 @@ pub struct SliderWrapper(pub Rc<RefCell<crate::ui::slider::Slider>>);
 
 impl UIElement for SliderWrapper {
     fn draw(&mut self, ctx: &mut UIContext, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
-        self.0.borrow_mut().draw(ctx, parent_x, parent_y, parent_w, parent_h);
+        {
+            let mut slider = self.0.borrow_mut();
+            slider.draw(ctx, parent_x, parent_y, parent_w, parent_h);
+        }
     }
 
     fn get_width(&self, parent_w: f32) -> f32 {

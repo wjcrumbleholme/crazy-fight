@@ -83,8 +83,11 @@ impl UIElement for Checkbox {
 pub struct CheckboxWrapper(pub Rc<RefCell<Checkbox>>);
 
 impl UIElement for CheckboxWrapper {
-    fn draw(&mut self, ctx: &mut UIContext, x: f32, y: f32, w: f32, h: f32) {
-        self.0.borrow_mut().draw(ctx, x, y, w, h);
+    fn draw(&mut self, ctx: &mut UIContext, parent_x: f32, parent_y: f32, parent_w: f32, parent_h: f32) {
+        {
+            let mut checkbox = self.0.borrow_mut();
+            checkbox.draw(ctx, parent_x, parent_y, parent_w, parent_h);
+        }
     }
 
     fn get_width(&self, parent_w: f32) -> f32 {
