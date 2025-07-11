@@ -4,7 +4,7 @@ pub mod direct_connect;
 pub mod connection_error;
 pub mod in_room;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub enum MenuState {
     MainMenu,
     RoomBrowser,

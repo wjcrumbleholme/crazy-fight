@@ -142,6 +142,39 @@ impl UIElement for Container {
                     current_y += child_h + calc_gap;
                 }
             },
+            Layout::ColumnTop => {
+                // This is like ColumnCenter but instead of aligning things in the centre, it starts at the top
+                // Get the height of all of the children
+                let mut total_height = 0.0;
+                let mut child_sizes = vec![];
+
+                // Loop over all children and add their width
+                for child in &self.children {
+                    let child_height = child.get_height(content_h);
+                    total_height += child_height;
+                    child_sizes.push(child_height);
+                }
+
+                // Calculate the gap size 
+                let calc_gap = match self.gap {
+                    Size::Abs(px) => px,
+                    Size::Rel(rel) => {
+                        content_h * rel
+                    }
+                };
+
+                // Add the missing gap
+                total_height += calc_gap * (self.children.len().saturating_sub(1)) as f32;
+
+                // Find starting point
+                let mut current_y = content_y + calc_gap;
+
+                // Draw all of the children
+                for (child, child_h) in self.children.iter_mut().zip(child_sizes.iter()) {
+                    child.draw(ctx, content_x, current_y, content_w, *child_h);
+                    current_y += child_h + calc_gap;
+                }
+            },
         }
 
 

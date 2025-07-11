@@ -1,7 +1,7 @@
 
 use std::{clone, collections::HashMap};
 
-use common::server::{messages::{ClientToMatchmakingServer, ClientToServer, MatchmakingServerToClient}, room_info::RoomInfo};
+use common::server::{messages::{ClientToMatchmakingServer, ClientToServer, MatchmakingServerToClient, ServerToClient}, room_info::RoomInfo};
 use macroquad::prelude::*;
 use uuid::Uuid;
 mod net;
@@ -9,7 +9,7 @@ mod ui;
 
 use net::WsMessage;
 
-use crate::{net::{platform, ConnectionResult, WebSocketClient}, ui::{UIContext, UIElement, UIMessage}, views::{connection_error::ConnectionError, direct_connect::DirectConnect, in_room::InRoom, main_menu::MainMenu, room_browser::RoomBrowser, MenuState}};
+use crate::{net::{platform, ConnectionResult, WebSocketClient}, ui::{label::Label, Alignment, Position, UIContext, UIElement, UIMessage}, views::{connection_error::ConnectionError, direct_connect::DirectConnect, in_room::InRoom, main_menu::MainMenu, room_browser::RoomBrowser, MenuState}};
 
 mod views;
 
@@ -22,6 +22,7 @@ pub struct AppState {
     pub error_message: Option<String>,
     pub player_id: Uuid,
     pub player_name: String,
+    pub other_players: HashMap<Uuid, String>
 }
 
 #[macroquad::main("Client")]
@@ -34,6 +35,7 @@ async fn main() {
         rooms: HashMap::new(),
         player_id: Uuid::new_v4(),
         player_name: "NO NAME".to_string(),
+        other_players: HashMap::new(),
     };
 
     let mut ctx = UIContext::new();
@@ -137,7 +139,7 @@ async fn main() {
         }
 
         for text in mm_messages {
-            process_matchmaking_server_message(&text, &mut app_state, &room_browser).await;
+            process_matchmaking_server_message(&text, &mut app_state, &room_browser, &in_room).await;
             let rooms_vec: Vec<RoomInfo> = app_state.rooms.values().cloned().collect();
             room_browser.update_rooms(&rooms_vec);
         }
@@ -160,12 +162,38 @@ async fn main() {
 
 
 async fn process_game_server_message(msg: &str, app_state: &mut AppState, in_room: &InRoom) {
+    match serde_json::from_str::<ServerToClient>(msg) {
+        // Instead of doing it this way, just request the player list from the server
+        Ok(ServerToClient::PlayerJoined { player_id, player_name }) => {
+            // First check if the player id is not the current one
+            if app_state.player_id != player_id {
+                // The id's are different so act on that info
+                // Check if the menu state is in the in_room state, and if it is then add the player to the current list
+                if app_state.menu_state == MenuState::InRoom {
 
+                    let player_label_to_add = Label::new(
+                        Position::Align(Alignment::Centre),
+                        Position::Align(Alignment::LeTop), 
+                        24, 
+                        player_name.clone(), 
+                        BLACK
+                    );
+
+                    in_room.player_container.borrow_mut().add_child(Box::new(player_label_to_add));
+                }
+
+                // Add the player to the other players hashmap
+                app_state.other_players.insert(player_id, player_name);
+            }
+            // The player id is the current player id so do nothing
+        },
+        _ => {},
+    }
 }
 
 
 
-async fn process_matchmaking_server_message(msg: &str, app_state: &mut AppState, room_browser: &RoomBrowser) {
+async fn process_matchmaking_server_message(msg: &str, app_state: &mut AppState, room_browser: &RoomBrowser, in_room: &InRoom) {
     match serde_json::from_str::<MatchmakingServerToClient>(msg) {
         Ok(MatchmakingServerToClient::RoomDirectory(room_dir)) => {
             #[cfg(not(target_arch = "wasm32"))]
@@ -202,9 +230,19 @@ async fn process_matchmaking_server_message(msg: &str, app_state: &mut AppState,
                     app_state.player_name = player_name.clone();
 
 
-                    client.send_text(&serde_json::to_string(&ClientToServer::RegisterPlayer { player_name, player_id: app_state.player_id.clone() }).unwrap());
+                    client.send_text(&serde_json::to_string(&ClientToServer::RegisterPlayer { player_name: player_name.clone(), player_id: app_state.player_id.clone() }).unwrap());
                     app_state.game_server_client = Some(client);
-                    app_state.menu_state = MenuState::InRoom
+                    app_state.menu_state = MenuState::InRoom;
+                    // Add the player to the list
+                    let player_label_to_add = Label::new(
+                        Position::Align(Alignment::Centre),
+                        Position::Align(Alignment::LeTop), 
+                        24, 
+                        format!("{player_name} (self)"), 
+                        BLACK
+                    );
+
+                    in_room.player_container.borrow_mut().add_child(Box::new(player_label_to_add));
                 },
                 ConnectionResult::Failure(err) => {
                     println!("Cannot connect to the game server");

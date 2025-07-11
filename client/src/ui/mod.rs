@@ -91,6 +91,7 @@ pub enum Layout {
     None,
     RowCentre,
     ColumnCentre,
+    ColumnTop,
 }
 
 // Define what all UIElements need to have 
